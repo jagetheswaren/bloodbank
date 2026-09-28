@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue Blood &mdash; Blood Bank Management</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar('issue-new')}"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="app-main">
+      <header th:replace="~{fragments/navbar :: navbar('Issue Blood', 'Operations / Issue Blood')}"></header>
+
+      <div class="page-container animate-fade-in" style="max-width: 780px;">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Clinical Blood Issue Requisition</h1>
+            <p class="page-subtitle">Allocate verified safe blood units for hospital patients using First-Expire, First-Out (FEFO) logic.</p>
+          </div>
+          <div>
+            <a href="/issues" class="btn btn-secondary btn-sm">&larr; Issue History</a>
+          </div>
+        </div>
+
+        <!-- FEFO Educational Protocol Banner -->
+        <div class="fefo-banner">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--primary);flex-shrink:0;">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+          <div>
+            <strong>First-Expire, First-Out (FEFO) Allocation:</strong>
+            The system automatically scans available inventory for the requested blood group and issues the oldest viable safe unit.
+            Units within the <strong>7-day near-expiry window</strong> and all <strong>expired units</strong> are strictly excluded from selection.
+          </div>
+        </div>
+
+        <!-- Issue Form Section -->
+        <div class="card" id="issue-form-section">
+          <div class="card-header">
+            <h3 class="card-title">Hospital Requisition Details</h3>
+          </div>
+          <div class="card-body">
+            <form id="issue-blood-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="issue-blood-group">Requested Blood Group <span class="required">*</span></label>
+                  <select id="issue-blood-group" name="bloodGroup" class="form-control" required>
+                    <option value="">-- Select Blood Group --</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                  <span class="form-text" id="selected-bg-stock-hint" style="font-weight:500;">
+                    Select a blood group to view live usable stock.
+                  </span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="issue-units">Number of Units <span class="required">*</span></label>
+                  <input type="number" id="issue-units" name="units" class="form-control" min="1" max="1" value="1" readonly>
+                  <span class="form-text">Single unit allocation per FEFO issue requisition.</span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="issue-patient">Recipient Patient Name <span class="required">*</span></label>
+                  <input type="text" id="issue-patient" name="patientName" class="form-control" placeholder="e.g. Karthik Raj" required>
+                  <span class="form-error">Patient name is required.</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="issue-hospital">Hospital / Clinic Name <span class="required">*</span></label>
+                  <input type="text" id="issue-hospital" name="hospitalName" class="form-control" placeholder="e.g. City Care Hospital" required>
+                  <span class="form-error">Hospital name is required.</span>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="issue-notes">Clinical Notes &amp; Department</label>
+                <input type="text" id="issue-notes" name="notes" class="form-control" placeholder="e.g. Emergency trauma unit, cross-match verified.">
+              </div>
+
+              <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-light);">
+                <a href="/issues" class="btn btn-secondary">Cancel</a>
+                <button type="submit" id="submit-issue-btn" class="btn btn-primary">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  Confirm &amp; Issue Blood Unit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        <!-- Issue Receipt Experience (Rendered on success) -->
+        <div id="issue-receipt-section" style="display: none;">
+          <div class="success-receipt-card animate-slide-up">
+            <div class="success-check-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h2 style="font-size:1.45rem;color:var(--text-primary);margin-bottom:0.25rem;">Blood Issued Successfully</h2>
+            <p style="color:var(--text-secondary);font-size:0.9rem;">The oldest safe unit was automatically selected via FEFO and marked as ISSUED.</p>
+
+            <div class="receipt-grid">
+              <div>
+                <span class="meta-field-label">Issue Tracking Code</span>
+                <span class="font-mono-code" id="receipt-issue-code">&mdash;</span>
+              </div>
+              <div>
+                <span class="meta-field-label">Allocated Blood Unit</span>
+                <span class="font-mono-code" id="receipt-allocated-unit" style="background-color:var(--status-issued-bg);color:var(--status-issued);border-color:var(--status-issued-border);">&mdash;</span>
+              </div>
+              <div>
+                <span class="meta-field-label">Patient Name</span>
+                <strong id="receipt-patient-name">&mdash;</strong>
+              </div>
+              <div>
+                <span class="meta-field-label">Hospital</span>
+                <strong id="receipt-hospital-name">&mdash;</strong>
+              </div>
+              <div>
+                <span class="meta-field-label">Blood Group</span>
+                <span style="font-weight:700;color:var(--primary);" id="receipt-blood-group">&mdash;</span>
+              </div>
+              <div>
+                <span class="meta-field-label">Issue Date</span>
+                <span id="receipt-issue-date">&mdash;</span>
+              </div>
+            </div>
+
+            <div style="display:flex;justify-content:center;gap:1rem;">
+              <a href="/inventory/stock" class="btn btn-secondary">Check Live Stock</a>
+              <a href="/issues" class="btn btn-primary">View Issue History</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+  </div>
+
+  <script type="module" src="/js/issues.js"></script>
+</body>
+</html>

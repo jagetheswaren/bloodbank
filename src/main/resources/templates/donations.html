@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donations &mdash; Blood Bank Management</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar('donations')}"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="app-main">
+      <header th:replace="~{fragments/navbar :: navbar('Donations', 'Donations')}"></header>
+
+      <div class="page-container animate-fade-in">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Donation Records</h1>
+            <p class="page-subtitle">Historical blood donation sessions and corresponding generated inventory units.</p>
+          </div>
+          <div class="page-actions">
+            <a href="/donations/new" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v6m0 0l-3-3m3 3l3-3"></path>
+                <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path>
+              </svg>
+              Record New Donation
+            </a>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Donation Code</th>
+                <th>Donor Details</th>
+                <th>Blood Group</th>
+                <th>Units Created</th>
+                <th>Blood Unit Codes</th>
+                <th>Collection Date</th>
+              </tr>
+            </thead>
+            <tbody id="donations-tbody">
+              <!-- Rendered dynamically by donations.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+  </div>
+
+  <script type="module" src="/js/donations.js"></script>
+</body>
+</html>

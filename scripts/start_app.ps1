@@ -1,6 +1,7 @@
-# BloodBank Startup Script
+# BloodBank Production Startup Script
 $ErrorActionPreference = "Stop"
-Set-Location -Path $PSScriptRoot
+$projectRoot = Split-Path -Parent $PSScriptRoot
+Set-Location -Path $projectRoot
 
 if (-not $env:DB_USERNAME) { $env:DB_USERNAME = "root" }
 if (-not $env:DB_PASSWORD) {
@@ -10,15 +11,16 @@ if (-not $env:DB_PASSWORD) {
     }
 }
 
-$javaBin = "C:\Program Files\Java\jdk-26.0.1\bin\java.exe"
-if (-not (Test-Path $javaBin)) {
-    $javaBin = "java"
+$jarPath = "target\bloodbank-1.0.0.jar"
+if (-not (Test-Path $jarPath)) {
+    $jarPath = "target\bloodbank-0.0.1-SNAPSHOT.jar"
 }
 
 Write-Host "============================================================"
 Write-Host "Starting Blood Bank Spring Boot Application..."
-Write-Host "URL: http://localhost:8080"
+Write-Host "Web Portal: http://localhost:8080"
+Write-Host "Dashboard:  http://localhost:8080/dashboard"
 Write-Host "Swagger UI: http://localhost:8080/swagger-ui/index.html"
 Write-Host "============================================================"
 
-& $javaBin -jar target\bloodbank-0.0.1-SNAPSHOT.jar
+java -jar $jarPath

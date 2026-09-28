@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Donor Profile &mdash; Blood Bank Management</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar('donors')}"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="app-main">
+      <header th:replace="~{fragments/navbar :: navbar('Donor Profile', 'Donors / Profile')}"></header>
+
+      <div class="page-container animate-fade-in" id="donor-profile-container" th:data-donor-id="${donorId}">
+        <div class="page-header">
+          <div class="page-title-group">
+            <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.25rem;">
+              <h1 id="profile-donor-name" style="margin-bottom:0;">Loading Donor...</h1>
+              <span id="profile-status"></span>
+            </div>
+            <p class="page-subtitle">
+              Donor Tracking Code: <span class="font-mono-code" id="profile-donor-code">&mdash;</span> &bull;
+              Blood Group: <strong id="profile-blood-group" style="color:var(--primary);font-size:1.05rem;">&mdash;</strong>
+            </p>
+          </div>
+          <div class="page-actions">
+            <a href="/donors" class="btn btn-secondary btn-sm">&larr; Donors List</a>
+            <a href="#" id="profile-donate-btn" class="btn btn-primary btn-sm">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v6m0 0l-3-3m3 3l3-3"></path>
+                <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path>
+              </svg>
+              Record Donation
+            </a>
+          </div>
+        </div>
+
+        <!-- Eligibility Evaluation Panel -->
+        <div id="profile-eligibility-panel">
+          <div class="skeleton" style="height: 110px; border-radius: var(--radius-lg); margin-bottom: 1.5rem;"></div>
+        </div>
+
+        <!-- Donor Information Card -->
+        <div class="card" style="margin-bottom: 1.75rem;">
+          <div class="card-header">
+            <h3 class="card-title">Personal &amp; Contact Details</h3>
+          </div>
+          <div class="card-body">
+            <div class="profile-meta-grid">
+              <div class="meta-field">
+                <span class="meta-field-label">Email Address</span>
+                <span class="meta-field-value" id="profile-email">&mdash;</span>
+              </div>
+              <div class="meta-field">
+                <span class="meta-field-label">Phone Number</span>
+                <span class="meta-field-value" id="profile-phone">&mdash;</span>
+              </div>
+              <div class="meta-field">
+                <span class="meta-field-label">Date of Birth</span>
+                <span class="meta-field-value" id="profile-dob">&mdash;</span>
+              </div>
+              <div class="meta-field">
+                <span class="meta-field-label">Gender</span>
+                <span class="meta-field-value" id="profile-gender">&mdash;</span>
+              </div>
+              <div class="meta-field" style="grid-column: 1 / -1;">
+                <span class="meta-field-label">Residential Address</span>
+                <span class="meta-field-value" id="profile-address">&mdash;</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Donation History Table -->
+        <div class="card">
+          <div class="card-header">
+            <div>
+              <h3 class="card-title">Historical Donations</h3>
+              <p class="card-subtitle">Lifetime whole blood collection sessions recorded for this donor</p>
+            </div>
+          </div>
+          <div class="table-wrapper" style="border:none;border-radius:0;">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Donation Code</th>
+                  <th>Date</th>
+                  <th>Units</th>
+                  <th>Generated Blood Unit Codes</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody id="profile-donations-tbody">
+                <tr><td colspan="5" style="text-align:center;padding:1.5rem;color:var(--text-muted);">Loading donation history...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+
+      <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+  </div>
+
+  <script type="module" src="/js/donors.js"></script>
+</body>
+</html>

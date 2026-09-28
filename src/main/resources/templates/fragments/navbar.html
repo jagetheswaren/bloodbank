@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="navbar(pageTitle, breadcrumbText)" class="app-topbar">
+  <div class="topbar-left">
+    <button class="menu-toggle-btn" id="menu-toggle" aria-label="Toggle navigation menu">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" y1="12" x2="21" y2="12"></line>
+        <line x1="3" y1="6" x2="21" y2="6"></line>
+        <line x1="3" y1="18" x2="21" y2="18"></line>
+      </svg>
+    </button>
+    <div class="breadcrumbs">
+      <span>BloodBank</span>
+      <span class="breadcrumb-separator">/</span>
+      <span class="breadcrumb-current" th:text="${breadcrumbText}">Dashboard</span>
+    </div>
+  </div>
+
+  <div class="topbar-right">
+    <div class="topbar-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"></circle>
+        <polyline points="12 6 12 12 16 14"></polyline>
+      </svg>
+      <span>FEFO Safe Issuing Active</span>
+    </div>
+    <a href="/swagger-ui/index.html" target="_blank" rel="noopener" class="btn btn-ghost btn-sm" title="Open Swagger API Explorer">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="16 18 22 12 16 6"></polyline>
+        <polyline points="8 6 2 12 8 18"></polyline>
+      </svg>
+      Swagger API
+    </a>
+  </div>
+</header>
+</html>

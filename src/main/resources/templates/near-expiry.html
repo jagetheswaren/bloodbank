@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Near-Expiry Units &mdash; Blood Bank Management</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar('near-expiry')}"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="app-main">
+      <header th:replace="~{fragments/navbar :: navbar('Near Expiry Monitor', 'Inventory / Near Expiry')}"></header>
+
+      <div class="page-container animate-fade-in">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Near-Expiry Blood Units (7-Day Cutoff)</h1>
+            <p class="page-subtitle">Units approaching the end of their 42-day lifespan are safely isolated from issueable stock.</p>
+          </div>
+          <div class="page-actions">
+            <a href="/inventory" class="btn btn-secondary btn-sm">&larr; Full Inventory</a>
+          </div>
+        </div>
+
+        <div class="alert alert-warning">
+          <svg class="alert-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+            <line x1="12" y1="9" x2="12" y2="13"></line>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          <div>
+            <strong>Automated Safety Protocol:</strong> Blood units within 7 days of expiration are flagged as <code>NEAR_EXPIRY</code>.
+            The FEFO allocation query explicitly filters out these units from patient issue requisitions.
+          </div>
+        </div>
+
+        <!-- Filter Bar -->
+        <div class="filter-bar">
+          <div class="search-input-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="unit-search-input" class="form-control search-input" placeholder="Search by unit code or donation code...">
+          </div>
+
+          <select id="inventory-bg-filter" class="form-control" style="width:auto;min-width:140px;">
+            <option value="">All Blood Groups</option>
+            <option value="A+">A+</option>
+            <option value="A-">A-</option>
+            <option value="B+">B+</option>
+            <option value="B-">B-</option>
+            <option value="AB+">AB+</option>
+            <option value="AB-">AB-</option>
+            <option value="O+">O+</option>
+            <option value="O-">O-</option>
+          </select>
+        </div>
+
+        <!-- Table -->
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Unit Code</th>
+                <th>Blood Group</th>
+                <th>Collection Date</th>
+                <th>Expiry Date &amp; Remaining Days</th>
+                <th>Status</th>
+                <th>Originating Donation</th>
+              </tr>
+            </thead>
+            <tbody id="inventory-tbody" data-view-mode="near-expiry">
+              <!-- Rendered dynamically by inventory.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+  </div>
+
+  <script type="module" src="/js/inventory.js"></script>
+</body>
+</html>

@@ -21,6 +21,7 @@ public class DonationCreateRequest {
 
     @NotNull(message = "Number of units is required")
     @Positive(message = "Number of units must be at least 1")
+    @com.fasterxml.jackson.annotation.JsonAlias({"numberOfUnits", "units"})
     private Integer numberOfUnits;
 
     @Size(max = 500, message = "Notes must not exceed 500 characters")

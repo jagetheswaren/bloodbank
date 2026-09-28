@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blood Bank Inventory &amp; Donor Eligibility Tracker</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar('home')}"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="app-main">
+      <header th:replace="~{fragments/navbar :: navbar('Welcome', 'Home')}"></header>
+
+      <div class="page-container animate-fade-in">
+        <section class="hero-section">
+          <div class="hero-tag">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+            </svg>
+            Clinical Blood Banking &amp; Inventory Management
+          </div>
+
+          <h1 class="hero-title">
+            Blood Bank Inventory &amp;<br>
+            <span>Donor Eligibility Tracker</span>
+          </h1>
+
+          <p class="hero-desc">
+            A production-grade Spring Boot system engineered for strict 90-day donor eligibility enforcement,
+            atomic donation registration, 42-day lifecycle tracking, 7-day near-expiry isolation, and
+            First-Expire, First-Out (FEFO) clinical blood issuing.
+          </p>
+
+          <div class="hero-cta">
+            <a href="/dashboard" class="btn btn-primary btn-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+              </svg>
+              Open Live Dashboard
+            </a>
+            <a href="/donors/new" class="btn btn-secondary btn-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="8.5" cy="7" r="4"></circle>
+                <line x1="20" y1="8" x2="20" y2="14"></line>
+                <line x1="23" y1="11" x2="17" y2="11"></line>
+              </svg>
+              Register Donor
+            </a>
+            <a href="/swagger-ui/index.html" target="_blank" rel="noopener" class="btn btn-ghost btn-lg">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              Swagger OpenAPI
+            </a>
+          </div>
+
+          <!-- 4 Core Business Rules Feature Cards -->
+          <div class="feature-cards-grid">
+            <div class="feature-card">
+              <div class="feature-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <h3>90-Day Eligibility Guard</h3>
+              <p>Prevents premature donation attempts by validating the mandatory 90-day recovery interval before accepting blood units.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+              </div>
+              <h3>FEFO Safe Issuing</h3>
+              <p>First-Expire, First-Out algorithm automatically selects safe units with earliest expiry, eliminating inventory wastage.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" y1="8" x2="12" y2="12"></line>
+                  <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                </svg>
+              </div>
+              <h3>7-Day Near-Expiry Filter</h3>
+              <p>Units within 7 days of expiry are automatically isolated from usable stock and prohibited from being issued to patients.</p>
+            </div>
+
+            <div class="feature-card">
+              <div class="feature-icon-wrap">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+                  <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+                </svg>
+              </div>
+              <h3>Atomic Transactions</h3>
+              <p>Donation intake and unit generation are wrapped in Spring JPA transactions, preventing orphan or corrupted inventory records.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+  </div>
+
+  <script type="module" src="/js/ui.js"></script>
+</body>
+</html>

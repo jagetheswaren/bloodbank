@@ -18,6 +18,7 @@ public class IssueRequest {
 
     @NotNull(message = "Number of units is required")
     @Positive(message = "Number of units must be at least 1")
+    @JsonAlias({"numberOfUnits", "units"})
     private Integer numberOfUnits;
 
     @NotBlank(message = "Patient name is required")

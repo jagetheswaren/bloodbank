@@ -9,7 +9,7 @@ This guide provides step-by-step instructions for running and evaluating the app
 ### Option A: Using the PowerShell Startup Script
 ```powershell
 cd C:\Users\jaget\Downloads\bloodbank\bloodbank
-.\start_app.ps1
+.\scripts\start_app.ps1
 ```
 
 ### Option B: Manual Startup via JAR
@@ -19,7 +19,7 @@ cd C:\Users\jaget\Downloads\bloodbank\bloodbank
 $env:DB_USERNAME="root"
 $env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"
 
-java -jar target\bloodbank-0.0.1-SNAPSHOT.jar --spring.datasource.username=$env:DB_USERNAME --spring.datasource.password=$env:DB_PASSWORD
+java -jar target\bloodbank-1.0.0.jar --spring.datasource.username=$env:DB_USERNAME --spring.datasource.password=$env:DB_PASSWORD
 ```
 
 ### Option C: Startup via Maven Wrapper
@@ -38,9 +38,13 @@ $env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"
 
 Once the application logs `Started BloodbankApplication in ... seconds`:
 
+- **Web Application Portal**: [http://localhost:8080/](http://localhost:8080/)
+- **Clinical Dashboard**: [http://localhost:8080/dashboard](http://localhost:8080/dashboard)
+- **Donor Registry**: [http://localhost:8080/donors](http://localhost:8080/donors)
+- **Inventory Stock**: [http://localhost:8080/inventory](http://localhost:8080/inventory)
+- **FEFO Blood Issuing**: [http://localhost:8080/issues/new](http://localhost:8080/issues/new)
 - **Swagger UI Interactive Documentation**: [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 - **OpenAPI v3 Definition**: [http://localhost:8080/v3/api-docs](http://localhost:8080/v3/api-docs)
-- **Root Web Redirect**: [http://localhost:8080/](http://localhost:8080/) (Automatically redirects to Swagger UI)
 
 ---
 

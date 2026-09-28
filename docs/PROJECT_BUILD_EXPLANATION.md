@@ -452,14 +452,14 @@ When an error occurs anywhere in the stack:
 ```powershell
 .\mvnw.cmd clean package -DskipTests
 ```
-The production JAR is generated at: `target\bloodbank-0.0.1-SNAPSHOT.jar`.
+The production JAR is generated at: `target\bloodbank-1.0.0.jar`.
 
 ### 5. Running the Application on Localhost
 ```powershell
 $env:DB_USERNAME="root"
 $env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"
 
-java -jar target\bloodbank-0.0.1-SNAPSHOT.jar --spring.datasource.username=$env:DB_USERNAME --spring.datasource.password=$env:DB_PASSWORD
+java -jar target\bloodbank-1.0.0.jar --spring.datasource.username=$env:DB_USERNAME --spring.datasource.password=$env:DB_PASSWORD
 ```
 
 ---
@@ -470,3 +470,31 @@ java -jar target\bloodbank-0.0.1-SNAPSHOT.jar --spring.datasource.username=$env:
 - **Repository Isolation**: Git is initialized directly within `C:\Users\jaget\Downloads\bloodbank\bloodbank`, strictly isolated from the parent Windows user profile.
 - **Security Compliance**: Sensitive credentials (`DB_PASSWORD`, API keys, tokens) are never committed. They are passed dynamically at runtime via environment variables (`$env:DB_PASSWORD`).
 - **Ignore Rules**: `.gitignore` comprehensively filters compiled artifacts (`target/`), crash dumps (`hs_err_pid*`), logs (`*.log`), environment files (`.env`), and IDE settings (`.idea/`, `.vscode/`).
+
+---
+
+## 15. Complete API Connection Map
+
+The table below details the complete execution path for every REST endpoint in the system, tracing the request from HTTP entry to database persistence and client response:
+
+| HTTP & Endpoint | Controller | Request DTO / Params | Service Layer | Repository | Entity / DB Table | Response DTO |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `POST /api/donors` | `DonorController` | `DonorCreateRequest` | `DonorService.createDonor()` | `DonorRepository` | `Donor` / `donors` | `DonorResponse` (201 Created) |
+| `GET /api/donors` | `DonorController` | `Pageable`, `active` | `DonorService.getAllDonors()` | `DonorRepository` | `Donor` / `donors` | `PageResponse<DonorResponse>` (200 OK) |
+| `GET /api/donors/{id}` | `DonorController` | `@PathVariable id` | `DonorService.getDonorById()` | `DonorRepository` | `Donor` / `donors` | `DonorResponse` (200 OK) |
+| `PUT /api/donors/{id}` | `DonorController` | `DonorUpdateRequest` | `DonorService.updateDonor()` | `DonorRepository` | `Donor` / `donors` | `DonorResponse` (200 OK) |
+| `DELETE /api/donors/{id}` | `DonorController` | `@PathVariable id` | `DonorService.deactivateDonor()` | `DonorRepository` | `Donor` / `donors` | `void` (204 No Content) |
+| `GET /api/donors/{id}/eligibility` | `DonorController` | `@PathVariable id` | `DonorService.checkEligibility()` | `DonorRepository`, `DonationRepository` | `Donor`, `Donation` | `EligibilityResponse` (200 OK) |
+| `POST /api/donations` | `DonationController` | `DonationCreateRequest` | `DonationService.createDonation()` | `DonationRepository`, `BloodUnitRepository`, `DonorRepository` | `Donation` / `donations`, `BloodUnit` / `blood_units` | `DonationResponse` (201 Created) |
+| `GET /api/donations` | `DonationController` | `Pageable` | `DonationService.getAllDonations()` | `DonationRepository` | `Donation` / `donations` | `PageResponse<DonationResponse>` (200 OK) |
+| `GET /api/donations/{id}` | `DonationController` | `@PathVariable id` | `DonationService.getDonationById()` | `DonationRepository` | `Donation` / `donations` | `DonationResponse` (200 OK) |
+| `GET /api/donations/donor/{donorId}` | `DonationController` | `@PathVariable donorId` | `DonationService.getDonationsByDonorId()` | `DonationRepository` | `Donation` / `donations` | `List<DonationResponse>` (200 OK) |
+| `GET /api/inventory` | `InventoryController` | `Pageable` | `InventoryService.getAllInventory()` | `BloodUnitRepository` | `BloodUnit` / `blood_units` | `PageResponse<BloodUnitResponse>` (200 OK) |
+| `GET /api/inventory/stock` | `InventoryController` | None | `InventoryService.getAvailableStockByBloodGroup()` | `BloodUnitRepository` | `BloodUnit` / `blood_units` | `Map<BloodGroup, Long>` (200 OK) |
+| `GET /api/inventory/near-expiry` | `InventoryController` | `Pageable` | `InventoryService.getNearExpiryUnits()` | `BloodUnitRepository` | `BloodUnit` / `blood_units` | `PageResponse<BloodUnitResponse>` (200 OK) |
+| `GET /api/inventory/expired` | `InventoryController` | `Pageable` | `InventoryService.getExpiredUnits()` | `BloodUnitRepository` | `BloodUnit` / `blood_units` | `PageResponse<BloodUnitResponse>` (200 OK) |
+| `GET /api/inventory/blood-group/{bg}` | `InventoryController` | `@PathVariable bg`, `Pageable` | `InventoryService.getInventoryByBloodGroup()` | `BloodUnitRepository` | `BloodUnit` / `blood_units` | `PageResponse<BloodUnitResponse>` (200 OK) |
+| `GET /api/inventory/unit/{unitCode}` | `InventoryController` | `@PathVariable unitCode` | `InventoryService.getBloodUnitByCode()` | `BloodUnitRepository` | `BloodUnit` / `blood_units` | `BloodUnitResponse` (200 OK) |
+| `POST /api/issues` | `IssueController` | `IssueRequest` | `IssueService.issueBloodUnit()` | `BloodUnitRepository`, `IssueRecordRepository` | `BloodUnit` / `blood_units`, `IssueRecord` / `issue_records` | `IssueResponse` (201 Created) |
+| `GET /api/issues` | `IssueController` | `Pageable` | `IssueService.getAllIssues()` | `IssueRecordRepository` | `IssueRecord` / `issue_records` | `PageResponse<IssueResponse>` (200 OK) |
+| `GET /api/issues/{id}` | `IssueController` | `@PathVariable id` | `IssueService.getIssueById()` | `IssueRecordRepository` | `IssueRecord` / `issue_records` | `IssueResponse` (200 OK) |

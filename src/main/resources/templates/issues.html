@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Issue History &mdash; Blood Bank Management</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar('issues')}"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="app-main">
+      <header th:replace="~{fragments/navbar :: navbar('Issue History', 'Operations / Issue History')}"></header>
+
+      <div class="page-container animate-fade-in">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Blood Issue History</h1>
+            <p class="page-subtitle">Audit trail of all clinical blood allocations dispatched to healthcare facilities.</p>
+          </div>
+          <div class="page-actions">
+            <a href="/issues/new" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polyline points="12 6 12 12 16 14"></polyline>
+              </svg>
+              Issue Blood Unit
+            </a>
+          </div>
+        </div>
+
+        <div class="table-wrapper">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Issue Code</th>
+                <th>Patient Name</th>
+                <th>Hospital / Clinic</th>
+                <th>Blood Group</th>
+                <th>Issued Blood Unit Code</th>
+                <th>Issue Date</th>
+              </tr>
+            </thead>
+            <tbody id="issues-tbody">
+              <!-- Rendered dynamically by issues.js -->
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+      <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+  </div>
+
+  <script type="module" src="/js/issues.js"></script>
+</body>
+</html>

@@ -28,6 +28,7 @@ replay_pid*
 # Environment and secrets
 .env
 .env.*
+!.env.example
 *.env
 secrets/
 *.key

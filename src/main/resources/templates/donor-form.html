@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register Donor &mdash; Blood Bank Management</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/components.css">
+  <link rel="stylesheet" href="/css/pages.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+  <div class="app-shell">
+    <div th:replace="~{fragments/sidebar :: sidebar('donor-new')}"></div>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
+    <main class="app-main">
+      <header th:replace="~{fragments/navbar :: navbar('Register Donor', 'Donors / Register')}"></header>
+
+      <div class="page-container animate-fade-in" style="max-width: 760px;">
+        <div class="page-header">
+          <div class="page-title-group">
+            <h1>Register New Blood Donor</h1>
+            <p class="page-subtitle">Add a voluntary donor profile. A unique donor tracking code will be generated automatically.</p>
+          </div>
+          <div>
+            <a href="/donors" class="btn btn-secondary btn-sm">&larr; Back to Donors</a>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-body">
+            <form id="donor-register-form" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="donor-name">Full Name <span class="required">*</span></label>
+                  <input type="text" id="donor-name" name="name" class="form-control" placeholder="e.g. Arun Kumar" required>
+                  <span class="form-error">Please enter the donor's full name.</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="donor-bg">Blood Group <span class="required">*</span></label>
+                  <select id="donor-bg" name="bloodGroup" class="form-control" required>
+                    <option value="">-- Select Blood Group --</option>
+                    <option value="A+">A+</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B-">B-</option>
+                    <option value="AB+">AB+</option>
+                    <option value="AB-">AB-</option>
+                    <option value="O+">O+</option>
+                    <option value="O-">O-</option>
+                  </select>
+                  <span class="form-error">Please select a blood group.</span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="donor-email">Email Address <span class="required">*</span></label>
+                  <input type="email" id="donor-email" name="email" class="form-control" placeholder="arun.demo@example.com" required>
+                  <span class="form-text">Must be unique across all registered donors.</span>
+                  <span class="form-error">Please enter a valid unique email address.</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="donor-phone">Phone Number <span class="required">*</span></label>
+                  <input type="tel" id="donor-phone" name="phone" class="form-control" placeholder="9876543210" required>
+                  <span class="form-text">10-digit primary contact number.</span>
+                  <span class="form-error">Please enter a valid 10-digit phone number.</span>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="donor-dob">Date of Birth <span class="required">*</span></label>
+                  <input type="date" id="donor-dob" name="dateOfBirth" class="form-control" required>
+                  <span class="form-text">Donor must be at least 18 years of age.</span>
+                  <span class="form-error">Date of birth is required.</span>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label" for="donor-gender">Gender</label>
+                  <select id="donor-gender" name="gender" class="form-control">
+                    <option value="MALE">Male</option>
+                    <option value="FEMALE">Female</option>
+                    <option value="OTHER">Other</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="donor-address">Residential Address</label>
+                <textarea id="donor-address" name="address" class="form-control" rows="3" placeholder="e.g. 104 Hospital Road, Coimbatore, Tamil Nadu"></textarea>
+                <span class="form-text">City, state, or residential area.</span>
+              </div>
+
+              <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-light);">
+                <a href="/donors" class="btn btn-secondary">Cancel</a>
+                <button type="submit" id="submit-donor-btn" class="btn btn-primary">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                  </svg>
+                  Register Donor
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+
+      <footer th:replace="~{fragments/footer :: footer}"></footer>
+    </main>
+  </div>
+
+  <script type="module" src="/js/donors.js"></script>
+</body>
+</html>
