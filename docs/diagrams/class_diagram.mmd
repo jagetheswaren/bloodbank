@@ -1,0 +1,143 @@
+classDiagram
+    direction TB
+
+    class BloodGroup {
+        <<enumeration>>
+        A_POSITIVE : "A+"
+        A_NEGATIVE : "A-"
+        B_POSITIVE : "B+"
+        B_NEGATIVE : "B-"
+        AB_POSITIVE : "AB+"
+        AB_NEGATIVE : "AB-"
+        O_POSITIVE : "O+"
+        O_NEGATIVE : "O-"
+        +fromValue(String) BloodGroup
+        +getDisplayValue() String
+    }
+
+    class BloodUnitStatus {
+        <<enumeration>>
+        AVAILABLE
+        NEAR_EXPIRY
+        EXPIRED
+        ISSUED
+        DISCARDED
+    }
+
+    class Gender {
+        <<enumeration>>
+        MALE
+        FEMALE
+        OTHER
+    }
+
+    class Donor {
+        -Long id
+        -String donorCode
+        -String name
+        -String email
+        -String phone
+        -LocalDate dateOfBirth
+        -Gender gender
+        -BloodGroup bloodGroup
+        -String address
+        -boolean active
+        -LocalDateTime createdAt
+        -LocalDateTime updatedAt
+        -List~Donation~ donations
+    }
+
+    class Donation {
+        -Long id
+        -String donationCode
+        -Donor donor
+        -LocalDate donationDate
+        -Integer numberOfUnits
+        -String notes
+        -LocalDateTime createdAt
+        -List~BloodUnit~ bloodUnits
+    }
+
+    class BloodUnit {
+        -Long id
+        -String unitCode
+        -Donation donation
+        -BloodGroup bloodGroup
+        -LocalDate collectionDate
+        -LocalDate expiryDate
+        -BloodUnitStatus status
+        -LocalDateTime createdAt
+        -LocalDateTime updatedAt
+        -IssueRecord issueRecord
+    }
+
+    class IssueRecord {
+        -Long id
+        -String issueCode
+        -BloodUnit bloodUnit
+        -String patientName
+        -String hospitalName
+        -BloodGroup requestedBloodGroup
+        -LocalDateTime issueDate
+        -String notes
+        -LocalDateTime createdAt
+    }
+
+    class DonorService {
+        -DonorRepository donorRepository
+        -DonationRepository donationRepository
+        -BloodBankProperties bloodBankProperties
+        +createDonor(DonorCreateRequest) DonorResponse
+        +getDonorById(Long) DonorResponse
+        +getAllDonors(Pageable, Boolean) Page~DonorResponse~
+        +updateDonor(Long, DonorUpdateRequest) DonorResponse
+        +deactivateDonor(Long) DonorResponse
+        +checkEligibility(Long) EligibilityResponse
+    }
+
+    class DonationService {
+        -DonationRepository donationRepository
+        -BloodUnitRepository bloodUnitRepository
+        -DonorService donorService
+        -BloodBankProperties bloodBankProperties
+        +registerDonation(DonationCreateRequest) DonationResponse
+        +getDonationById(Long) DonationResponse
+        +getAllDonations(Pageable) Page~DonationResponse~
+    }
+
+    class InventoryService {
+        -BloodUnitRepository bloodUnitRepository
+        -BloodBankProperties bloodBankProperties
+        +getStockLevels() Map~String, Long~
+        +getAllInventory(Pageable, BloodUnitStatus, BloodGroup) Page~BloodUnitResponse~
+        +getNearExpiryUnits(Pageable) Page~BloodUnitResponse~
+        +getExpiredUnits(Pageable) Page~BloodUnitResponse~
+        +getUnitsByBloodGroup(BloodGroup, Pageable) Page~BloodUnitResponse~
+        +updateInventoryStatuses() int
+    }
+
+    class IssueService {
+        -BloodUnitRepository bloodUnitRepository
+        -IssueRecordRepository issueRecordRepository
+        -BloodBankProperties bloodBankProperties
+        +issueBlood(IssueRequest) IssueResponse
+        +getIssueById(Long) IssueRecordResponse
+        +getAllIssues(Pageable) Page~IssueRecordResponse~
+    }
+
+    Donor "1" --> "*" Donation : owns
+    Donation "1" --> "*" BloodUnit : produces
+    BloodUnit "1" --> "0..1" IssueRecord : assigned to
+    Donor --> BloodGroup
+    Donor --> Gender
+    BloodUnit --> BloodGroup
+    BloodUnit --> BloodUnitStatus
+    IssueRecord --> BloodGroup
+
+    DonationService --> DonorService
+    DonorService ..> Donor
+    DonationService ..> Donation
+    DonationService ..> BloodUnit
+    InventoryService ..> BloodUnit
+    IssueService ..> BloodUnit
+    IssueService ..> IssueRecord

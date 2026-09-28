@@ -1,0 +1,53 @@
+erDiagram
+    DONOR ||--o{ DONATION : "makes (1:N)"
+    DONATION ||--|{ BLOOD_UNIT : "yields (1:N)"
+    BLOOD_UNIT ||--o| ISSUE_RECORD : "issued_as (1:0..1)"
+
+    DONOR {
+        bigint id PK
+        varchar(50) donor_code UK
+        varchar(100) name
+        varchar(150) email UK
+        varchar(30) phone UK
+        date date_of_birth
+        varchar(20) gender
+        varchar(20) blood_group
+        varchar(255) address
+        boolean active
+        datetime created_at
+        datetime updated_at
+    }
+
+    DONATION {
+        bigint id PK
+        varchar(50) donation_code UK
+        bigint donor_id FK
+        date donation_date
+        int number_of_units
+        varchar(500) notes
+        datetime created_at
+    }
+
+    BLOOD_UNIT {
+        bigint id PK
+        varchar(50) unit_code UK
+        bigint donation_id FK
+        varchar(20) blood_group
+        date collection_date
+        date expiry_date
+        varchar(20) status
+        datetime created_at
+        datetime updated_at
+    }
+
+    ISSUE_RECORD {
+        bigint id PK
+        varchar(50) issue_code UK
+        bigint blood_unit_id FK,UK
+        varchar(100) patient_name
+        varchar(150) hospital_name
+        varchar(20) requested_blood_group
+        datetime issue_date
+        varchar(500) notes
+        datetime created_at
+    }

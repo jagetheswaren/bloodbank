@@ -1,0 +1,41 @@
+flowchart LR
+    DonorActor["Donor"]
+    StaffActor["Blood Bank Staff / Phlebotomist"]
+    HospitalActor["Hospital / Doctor"]
+    SchedulerActor["System Scheduler"]
+
+    subgraph BloodBankSystem ["BloodBank Inventory & Donor Tracker"]
+        UC1(["Register New Donor"])
+        UC2(["Update Donor Profile"])
+        UC3(["Deactivate Donor (Soft Delete)"])
+        UC4(["Check Donor Eligibility (90-Day Gap)"])
+        UC5(["Record Blood Donation"])
+        UC6(["Auto-Generate Blood Units (42-Day Shelf Life)"])
+        UC7(["View Real-Time Stock (8 Blood Groups)"])
+        UC8(["Track Near-Expiry (<= 7 Days)"])
+        UC9(["Track Expired Blood Units"])
+        UC10(["Issue Blood Units (FEFO Allocation)"])
+        UC11(["Block Near-Expiry / Expired Issuance"])
+        UC12(["Periodic Expiry Status Auto-Sweep"])
+    end
+
+    DonorActor --> UC1
+    DonorActor --> UC4
+    StaffActor --> UC1
+    StaffActor --> UC2
+    StaffActor --> UC3
+    StaffActor --> UC4
+    StaffActor --> UC5
+    UC5 -.->|includes| UC4
+    UC5 -.->|triggers| UC6
+    StaffActor --> UC7
+    StaffActor --> UC8
+    StaffActor --> UC9
+
+    HospitalActor --> UC10
+    UC10 -.->|enforces| UC11
+    UC10 -.->|updates| UC7
+
+    SchedulerActor --> UC12
+    UC12 -.->|updates status| UC8
+    UC12 -.->|updates status| UC9

@@ -1,0 +1,44 @@
+sequenceDiagram
+    autonumber
+    actor Hospital as Hospital / Doctor
+    participant Ctrl as IssueController
+    participant Svc as IssueService
+    participant BURepo as BloodUnitRepository
+    participant IssRepo as IssueRecordRepository
+    participant DB as MySQL Database
+
+    Hospital->>Ctrl: POST /api/issues (bloodGroup, units, patient, hospital)
+    Ctrl->>Svc: issueBlood(request)
+
+    rect rgb(240, 248, 255)
+        Note over Svc,DB: Query Available Safe Units (FEFO)
+        Svc->>BURepo: findSafeAvailableUnitsForIssue(bloodGroup, nearExpiryCutoff)
+        BURepo->>DB: SELECT * FROM blood_units WHERE status='AVAILABLE' AND expiry_date > cutoff ORDER BY expiry_date ASC
+        DB-->>BURepo: List<BloodUnit> (Ordered by earliest expiry)
+        BURepo-->>Svc: Candidate BloodUnits
+
+        Note over Svc: Strict Java-side Verification
+        Svc->>Svc: Exclude expired, near-expiry (<=7d), and already issued units
+
+        alt Safe Units < Requested Units
+            Svc-->>Ctrl: throw InsufficientStockException
+            Ctrl-->>Hospital: 400 Bad Request (INSUFFICIENT_STOCK)
+        end
+    end
+
+    rect rgb(245, 255, 245)
+        Note over Svc,DB: Atomic Unit Issuing (@Transactional)
+        loop For each allocated unit (FEFO)
+            Svc->>Svc: unit.setStatus(ISSUED)
+            Svc->>BURepo: save(BloodUnit)
+            BURepo->>DB: UPDATE blood_units SET status = 'ISSUED' WHERE id = ?
+            
+            Svc->>Svc: Generate issueCode ("ISS-...")
+            Svc->>IssRepo: save(IssueRecord)
+            IssRepo->>DB: INSERT INTO issue_records (issue_code, blood_unit_id, patient, hospital, ...)
+            DB-->>IssRepo: Saved IssueRecord
+        end
+    end
+
+    Svc-->>Ctrl: IssueResponse (issuedUnits list, audit codes)
+    Ctrl-->>Hospital: 201 Created (Issue details)

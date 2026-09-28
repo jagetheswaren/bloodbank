@@ -1,0 +1,60 @@
+graph TD
+    subgraph Client ["Client Layer"]
+        Browser["Web Browser / Client UI"]
+        Swagger["Swagger UI / OpenAPI<br/>/swagger-ui/index.html"]
+        Postman["Postman / REST Clients"]
+    end
+
+    subgraph Controller ["REST Controller Layer (Thin)"]
+        DonorCtrl["DonorController<br/>/api/donors"]
+        DonationCtrl["DonationController<br/>/api/donations"]
+        InventoryCtrl["InventoryController<br/>/api/inventory"]
+        IssueCtrl["IssueController<br/>/api/issues"]
+        ExHandler["GlobalExceptionHandler<br/>@RestControllerAdvice"]
+    end
+
+    subgraph Validation ["DTO & Validation Layer"]
+        ReqDTO["Request DTOs<br/>@Valid, @NotBlank, @NotNull, @Email, @Past, @Positive"]
+        ResDTO["Response DTOs<br/>DonorResponse, BloodUnitResponse, StockResponse, IssueResponse"]
+    end
+
+    subgraph Service ["Business Logic Layer (@Service, @Transactional)"]
+        DonorSvc["DonorService<br/>- 90-Day Gap Eligibility<br/>- Active Verification<br/>- Soft Deactivation"]
+        DonationSvc["DonationService<br/>- Pre-Save Eligibility Check<br/>- Atomic Donation Save<br/>- 42-Day Unit Generation"]
+        InventorySvc["InventoryService<br/>- 8-BloodGroup Stock Count<br/>- 7-Day Near-Expiry Auto-Flag<br/>- Expiry Evaluation"]
+        IssueSvc["IssueService<br/>- FEFO Unit Selection<br/>- Duplicate Issue Guard<br/>- Unsafe Unit Exclusion"]
+        Scheduler["InventoryStatusScheduler<br/>@Scheduled(fixedRate = 60s)"]
+    end
+
+    subgraph Repository ["Persistence Layer (Spring Data JPA)"]
+        DonorRepo["DonorRepository"]
+        DonationRepo["DonationRepository"]
+        BloodUnitRepo["BloodUnitRepository<br/>(FEFO Queries & Stock Aggregation)"]
+        IssueRepo["IssueRecordRepository"]
+    end
+
+    subgraph Database ["Database Layer"]
+        MySQL[("MySQL 8.0<br/>bloodbank_db")]
+        H2[("H2 In-Memory DB<br/>bloodbank_test_db")]
+    end
+
+    Browser --> DonorCtrl & DonationCtrl & InventoryCtrl & IssueCtrl
+    Swagger --> DonorCtrl & DonationCtrl & InventoryCtrl & IssueCtrl
+    Postman --> DonorCtrl & DonationCtrl & InventoryCtrl & IssueCtrl
+
+    DonorCtrl & DonationCtrl & InventoryCtrl & IssueCtrl --> ReqDTO
+    ReqDTO --> ExHandler
+
+    DonorCtrl --> DonorSvc
+    DonationCtrl --> DonationSvc
+    InventoryCtrl --> InventorySvc
+    IssueCtrl --> IssueSvc
+    Scheduler --> InventorySvc
+
+    DonorSvc --> DonorRepo & DonationRepo
+    DonationSvc --> DonationRepo & BloodUnitRepo & DonorSvc
+    InventorySvc --> BloodUnitRepo
+    IssueSvc --> BloodUnitRepo & IssueRepo
+
+    DonorRepo & DonationRepo & BloodUnitRepo & IssueRepo --> MySQL
+    DonorRepo & DonationRepo & BloodUnitRepo & IssueRepo -.-> H2

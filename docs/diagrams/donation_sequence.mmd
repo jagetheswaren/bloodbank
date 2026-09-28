@@ -1,0 +1,53 @@
+sequenceDiagram
+    autonumber
+    actor Staff as Blood Bank Staff
+    participant Ctrl as DonationController
+    participant Svc as DonationService
+    participant DSvc as DonorService
+    participant DRepo as DonationRepository
+    participant BURepo as BloodUnitRepository
+    participant DB as MySQL Database
+
+    Staff->>Ctrl: POST /api/donations (donorId, donationDate, units, notes)
+    Ctrl->>Svc: registerDonation(request)
+    
+    rect rgb(240, 248, 255)
+        Note over Svc,DSvc: Pre-Persistence Eligibility Check
+        Svc->>DSvc: findDonorEntity(donorId)
+        DSvc->>DB: SELECT * FROM donors WHERE id = ?
+        DB-->>DSvc: Donor entity
+        DSvc-->>Svc: Donor entity (active=true)
+
+        Svc->>DSvc: checkEligibility(donorId)
+        DSvc->>DRepo: findTopByDonorOrderByDonationDateDesc(...)
+        DRepo->>DB: SELECT * FROM donations WHERE donor_id = ? ORDER BY date DESC
+        DB-->>DRepo: Latest Donation (or Empty)
+        
+        alt Gap < 90 Days
+            DSvc-->>Svc: Eligible = false (remainingDays)
+            Svc-->>Ctrl: throw DonorNotEligibleException
+            Ctrl-->>Staff: 400 Bad Request (DONOR_NOT_ELIGIBLE)
+        else Gap >= 90 Days or First-Time Donor
+            DSvc-->>Svc: Eligible = true
+        end
+    end
+
+    rect rgb(245, 255, 245)
+        Note over Svc,DB: Atomic Transaction (@Transactional)
+        Svc->>DRepo: save(Donation)
+        DRepo->>DB: INSERT INTO donations (...)
+        DB-->>DRepo: Saved Donation
+
+        loop For each requested unit (1 .. numberOfUnits)
+            Svc->>Svc: Generate unitCode ("UNT-...")
+            Svc->>Svc: expiryDate = collectionDate + 42 days
+            Svc->>Svc: status = AVAILABLE (if safe)
+        end
+
+        Svc->>BURepo: saveAll(List<BloodUnit>)
+        BURepo->>DB: INSERT INTO blood_units (...)
+        DB-->>BURepo: Saved BloodUnits
+    end
+
+    Svc-->>Ctrl: DonationResponse (with bloodUnits list)
+    Ctrl-->>Staff: 201 Created (Donation details & generated units)
