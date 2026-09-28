@@ -1,13 +1,10 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<footer th:fragment="footer" class="app-footer">
+<footer th:fragment="footer" class="app-footer" xmlns:th="http://www.thymeleaf.org">
   <div>
     <strong>Blood Bank Inventory &amp; Donor Eligibility Tracker</strong> &mdash; Spring Boot 4.1.1 &amp; MySQL
   </div>
   <div class="footer-links">
-    <a href="/swagger-ui/index.html" target="_blank" rel="noopener">OpenAPI Docs</a>
-    <a href="/about">Architecture &amp; Rules</a>
-    <a href="https://github.com/jagetheswaren/bloodbank" target="_blank" rel="noopener">GitHub Repository</a>
+    <a th:href="@{/swagger-ui/index.html}" href="/swagger-ui/index.html" target="_blank" rel="noopener noreferrer">OpenAPI Docs</a>
+    <a th:href="@{/about}" href="/about">Architecture &amp; Rules</a>
+    <a href="https://github.com/jagetheswaren/bloodbank" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
   </div>
 </footer>
-</html>

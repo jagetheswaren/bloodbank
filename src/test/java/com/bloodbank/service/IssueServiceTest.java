@@ -7,7 +7,6 @@ import com.bloodbank.entity.BloodUnit;
 import com.bloodbank.entity.IssueRecord;
 import com.bloodbank.enums.BloodGroup;
 import com.bloodbank.enums.BloodUnitStatus;
-import com.bloodbank.exception.BloodUnitUnavailableException;
 import com.bloodbank.exception.InsufficientStockException;
 import com.bloodbank.repository.BloodUnitRepository;
 import com.bloodbank.repository.IssueRecordRepository;

@@ -2,7 +2,6 @@ package com.bloodbank.service;
 
 import com.bloodbank.config.BloodBankProperties;
 import com.bloodbank.dto.request.DonorCreateRequest;
-import com.bloodbank.dto.request.DonorUpdateRequest;
 import com.bloodbank.dto.response.DonorResponse;
 import com.bloodbank.dto.response.EligibilityResponse;
 import com.bloodbank.entity.Donation;
@@ -21,12 +20,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;

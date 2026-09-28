@@ -70,6 +70,18 @@ function filterAndRenderUnits() {
   }
 
   if (filtered.length === 0) {
+    const viewMode = tbody.dataset.viewMode || 'all';
+    let emptyTitle = 'No blood units found';
+    let emptyText = 'No blood units match the selected filters.';
+
+    if (viewMode === 'near-expiry' && !search && !bgFilter && !statusFilter) {
+      emptyTitle = 'No Near-Expiry Units';
+      emptyText = 'No blood units are currently within the 7-day near-expiry window.';
+    } else if (viewMode === 'expired' && !search && !bgFilter && !statusFilter) {
+      emptyTitle = 'No Expired Units';
+      emptyText = 'No expired blood units are currently recorded.';
+    }
+
     tbody.innerHTML = `
       <tr>
         <td colspan="6">
@@ -78,8 +90,8 @@ function filterAndRenderUnits() {
               <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
             </svg>
-            <h3 class="empty-state-title">No blood units found</h3>
-            <p class="empty-state-text">No blood units match the selected filters.</p>
+            <h3 class="empty-state-title">${escapeHtml(emptyTitle)}</h3>
+            <p class="empty-state-text">${escapeHtml(emptyText)}</p>
           </div>
         </td>
       </tr>

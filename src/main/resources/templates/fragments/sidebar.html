@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<aside th:fragment="sidebar(activePage)" class="app-sidebar" id="app-sidebar">
+<aside th:fragment="sidebar(activePage)" class="app-sidebar" id="app-sidebar" xmlns:th="http://www.thymeleaf.org">
   <div class="sidebar-header">
     <div class="brand-logo">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
@@ -19,7 +17,7 @@
       <div class="nav-section-title">Overview</div>
       <ul class="nav-list">
         <li class="nav-item" th:classappend="${activePage == 'dashboard'} ? 'active'">
-          <a href="/dashboard">
+          <a th:href="@{/dashboard}" href="/dashboard">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="3" y="3" width="7" height="7"></rect>
               <rect x="14" y="3" width="7" height="7"></rect>
@@ -37,7 +35,7 @@
       <div class="nav-section-title">Donor Management</div>
       <ul class="nav-list">
         <li class="nav-item" th:classappend="${activePage == 'donors'} ? 'active'">
-          <a href="/donors">
+          <a th:href="@{/donors}" href="/donors">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
               <circle cx="9" cy="7" r="4"></circle>
@@ -48,7 +46,7 @@
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'donor-new'} ? 'active'">
-          <a href="/donors/new">
+          <a th:href="@{/donors/new}" href="/donors/new">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
               <circle cx="8.5" cy="7" r="4"></circle>
@@ -66,7 +64,7 @@
       <div class="nav-section-title">Blood Operations</div>
       <ul class="nav-list">
         <li class="nav-item" th:classappend="${activePage == 'donations'} ? 'active'">
-          <a href="/donations">
+          <a th:href="@{/donations}" href="/donations">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
             </svg>
@@ -74,7 +72,7 @@
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'donation-new'} ? 'active'">
-          <a href="/donations/new">
+          <a th:href="@{/donations/new}" href="/donations/new">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M12 2v6m0 0l-3-3m3 3l3-3"></path>
               <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path>
@@ -83,7 +81,7 @@
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'inventory'} ? 'active'">
-          <a href="/inventory">
+          <a th:href="@{/inventory}" href="/inventory">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
               <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
@@ -92,7 +90,7 @@
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'issue-new'} ? 'active'">
-          <a href="/issues/new">
+          <a th:href="@{/issues/new}" href="/issues/new">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
@@ -101,7 +99,7 @@
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'issues'} ? 'active'">
-          <a href="/issues">
+          <a th:href="@{/issues}" href="/issues">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
               <polyline points="14 2 14 8 20 8"></polyline>
@@ -119,8 +117,8 @@
       <div class="nav-section-title">Status Monitors</div>
       <ul class="nav-list">
         <li class="nav-item" th:classappend="${activePage == 'near-expiry'} ? 'active'">
-          <a href="/inventory/near-expiry">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--status-near-expiry)">
+          <a th:href="@{/inventory/near-expiry}" href="/inventory/near-expiry">
+            <svg class="nav-icon icon-near-expiry" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="12" y1="8" x2="12" y2="12"></line>
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
@@ -129,8 +127,8 @@
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'expired'} ? 'active'">
-          <a href="/inventory/expired">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color:var(--status-expired)">
+          <a th:href="@{/inventory/expired}" href="/inventory/expired">
+            <svg class="nav-icon icon-expired" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="15" y1="9" x2="9" y2="15"></line>
               <line x1="9" y1="9" x2="15" y2="15"></line>
@@ -146,7 +144,7 @@
       <div class="nav-section-title">System &amp; Docs</div>
       <ul class="nav-list">
         <li class="nav-item">
-          <a href="/swagger-ui/index.html" target="_blank" rel="noopener">
+          <a th:href="@{/swagger-ui/index.html}" href="/swagger-ui/index.html" target="_blank" rel="noopener noreferrer">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="16 18 22 12 16 6"></polyline>
               <polyline points="8 6 2 12 8 18"></polyline>
@@ -155,7 +153,7 @@
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'about'} ? 'active'">
-          <a href="/about">
+          <a th:href="@{/about}" href="/about">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <line x1="12" y1="16" x2="12" y2="12"></line>
@@ -173,7 +171,6 @@
       <span class="status-dot"></span>
       <span>API &amp; DB Connected</span>
     </div>
-    <span style="font-size:0.7rem;color:var(--text-muted);font-weight:600;">v1.0.0</span>
+    <span class="sidebar-version">v1.0.0</span>
   </div>
 </aside>
-</html>

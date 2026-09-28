@@ -1,7 +1,6 @@
 package com.bloodbank.service;
 
 import com.bloodbank.config.BloodBankProperties;
-import com.bloodbank.dto.response.BloodUnitResponse;
 import com.bloodbank.entity.BloodUnit;
 import com.bloodbank.enums.BloodGroup;
 import com.bloodbank.enums.BloodUnitStatus;
