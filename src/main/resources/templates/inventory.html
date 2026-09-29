@@ -47,6 +47,34 @@
           </div>
         </div>
 
+        <!-- Educational Expiry Lifecycle Architecture (Section 74) -->
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="d-flex align-center justify-between mb-2">
+              <span class="font-bold text-primary-color font-sm text-uppercase">42-Day Whole Blood Unit Lifecycle Architecture</span>
+              <span class="badge badge-info">FEFO Clinical Safeguard</span>
+            </div>
+            <div class="lifecycle-bar-container">
+              <div class="lifecycle-track">
+                <div class="lifecycle-segment safe" title="> 7 Days Remaining: Safe for FEFO Issuing">
+                  <span>Safe Available Window (Days 42 &rarr; 8)</span>
+                </div>
+                <div class="lifecycle-segment near-expiry" title="1 to 7 Days Remaining: Quarantined from Issuing">
+                  <span>Near-Expiry Quarantine (Days 7 &rarr; 0)</span>
+                </div>
+                <div class="lifecycle-segment expired" title="Past Expiration: Strictly Excluded">
+                  <span>Expired / Discard</span>
+                </div>
+              </div>
+              <div class="lifecycle-labels">
+                <span>Collection (Day 0)</span>
+                <span>Day 35 (Cutoff)</span>
+                <span>Day 42 (Expired)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Filter & Search Controls -->
         <div class="filter-bar">
           <div class="search-input-wrap">

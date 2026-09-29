@@ -872,3 +872,59 @@
 .font-medium {
   font-weight: 500;
 }
+
+/* --------------------------------------------------------------------------
+   Educational Expiry Lifecycle Timeline (Section 74)
+   -------------------------------------------------------------------------- */
+.lifecycle-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.lifecycle-track {
+  display: flex;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--border-light);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.lifecycle-segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  white-space: nowrap;
+}
+
+.lifecycle-segment.safe {
+  flex: 35;
+  background-color: #EDFDF5;
+  color: var(--color-success, #067647);
+  border-right: 2px dashed rgba(6, 118, 71, 0.4);
+}
+
+.lifecycle-segment.near-expiry {
+  flex: 7;
+  background-color: #FFFAEB;
+  color: var(--color-warning, #B54708);
+  border-right: 2px solid rgba(181, 71, 8, 0.4);
+}
+
+.lifecycle-segment.expired {
+  flex: 6;
+  background-color: #FEF3F2;
+  color: var(--color-danger, #B42318);
+}
+
+.lifecycle-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  font-weight: 600;
+}

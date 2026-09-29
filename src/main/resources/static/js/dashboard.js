@@ -69,22 +69,25 @@ function renderStockGrid(stockMap = {}) {
     const tile = document.createElement('div');
     tile.className = 'stock-tile';
 
-    let statusClass = '';
-    let statusText = 'Available';
-    let fillWidth = Math.min((count / 15) * 100, 100);
+    let statusClass = 'healthy';
+    let statusText = 'Healthy';
+    let fillWidth = Math.min((count / 10) * 100, 100);
 
     if (count === 0) {
       statusClass = 'empty';
-      statusText = 'Depleted';
-    } else if (count <= 2) {
+      statusText = 'Unavailable';
+    } else if (count === 1) {
+      statusClass = 'critical';
+      statusText = 'Critical';
+    } else if (count <= 3) {
       statusClass = 'low';
-      statusText = 'Low Stock';
+      statusText = 'Low';
     }
 
     tile.innerHTML = `
       <div class="stock-tile-top">
         <span class="blood-type-badge">${bg}</span>
-        <span style="font-size:0.75rem;font-weight:600;color:${count === 0 ? 'var(--danger)' : count <= 2 ? 'var(--warning)' : 'var(--success)'};">${statusText}</span>
+        <span class="stock-status-pill ${statusClass}">${statusText}</span>
       </div>
       <div class="stock-count-wrap">
         <span class="stock-number">${count}</span>

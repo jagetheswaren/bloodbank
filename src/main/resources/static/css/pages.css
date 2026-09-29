@@ -795,6 +795,9 @@
   .landing-links {
     display: none;
   }
+  .landing-hamburger-btn {
+    display: flex;
+  }
   .hero-headline {
     font-size: 2.25rem;
   }
@@ -811,6 +814,328 @@
   .blood-stock-grid {
     grid-template-columns: 1fr;
   }
+  .er-diagram-flow {
+    flex-direction: column;
+    align-items: center;
+  }
+  .er-rel-connector {
+    transform: rotate(90deg);
+    margin: 8px 0;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   ER DIAGRAM VISUALIZATION (Section 9)
+   -------------------------------------------------------------------------- */
+.er-diagram-flow {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.er-entity-card {
+  flex: 1 1 230px;
+  max-width: 260px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-xs);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: transform var(--motion-normal) var(--ease-smooth),
+              box-shadow var(--motion-normal) var(--ease-smooth),
+              border-color var(--motion-normal) var(--ease-smooth);
+}
+
+.er-entity-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.er-entity-header {
+  background: var(--color-primary-soft);
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-primary-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.er-entity-name {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.er-entity-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary-border);
+}
+
+.er-entity-fields {
+  padding: 14px 16px;
+  flex: 1;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.er-field-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.er-field-name {
+  color: var(--color-text);
+  font-family: monospace;
+  font-size: 0.82rem;
+}
+
+.er-field-key {
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+
+.er-field-key.pk {
+  background: #FEF3F2;
+  color: #B42318;
+  border: 1px solid #FECDCA;
+}
+
+.er-field-key.fk {
+  background: #EFF8FF;
+  color: #175CD3;
+  border: 1px solid #B2DDFF;
+}
+
+.er-rel-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 4px;
+  color: var(--color-primary);
+}
+
+.er-rel-label {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-primary-border);
+}
+
+.er-rel-arrow {
+  color: var(--color-text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   TECHNOLOGY STACK GRID (Section 10)
+   -------------------------------------------------------------------------- */
+.tech-stack-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.tech-chip-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 14px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--motion-fast) ease;
+}
+
+.tech-chip-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+
+.tech-chip-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 800;
+  font-size: 0.85rem;
+}
+
+.tech-chip-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.tech-chip-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+.tech-chip-role {
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   VERIFIED PROJECT STATUS / METRICS (Section 11)
+   -------------------------------------------------------------------------- */
+.verified-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.metric-status-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px 20px;
+  text-align: center;
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--motion-normal) var(--ease-smooth);
+}
+
+.metric-status-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.metric-status-val {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.metric-status-val.green {
+  color: var(--color-success);
+}
+
+.metric-status-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.metric-status-sub {
+  font-size: 0.76rem;
+  color: var(--color-text-secondary);
+  line-height: 1.4;
+}
+
+/* Landing Mobile Drawer Navigation */
+.landing-hamburger-btn {
+  display: none;
+  background: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 6px;
+  color: var(--color-text);
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+}
+
+.landing-mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -280px;
+  width: 280px;
+  height: 100vh;
+  background: var(--color-surface);
+  box-shadow: var(--shadow-xl);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  transition: right var(--motion-normal) var(--ease-smooth);
+}
+
+.landing-mobile-drawer.open {
+  right: 0;
+}
+
+.landing-mobile-drawer-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.landing-mobile-drawer-close {
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+  padding: 4px;
+}
+
+.landing-mobile-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.landing-mobile-links a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.landing-mobile-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(2px);
+  z-index: 99;
+  display: none;
+}
+
+.landing-mobile-overlay.active {
+  display: block;
 }
 
 /* Landing CTA Card (Section 104) */

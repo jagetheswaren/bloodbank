@@ -7,12 +7,12 @@
     </div>
     <div class="brand-text">
       <span class="brand-name">BloodBank</span>
-      <span class="brand-subtitle">Inventory &amp; Eligibility</span>
+      <span class="brand-subtitle">Clinical Operations</span>
     </div>
   </div>
 
   <nav class="sidebar-nav">
-    <!-- Overview -->
+    <!-- OVERVIEW -->
     <div>
       <div class="nav-section-title">Overview</div>
       <ul class="nav-list">
@@ -30,9 +30,9 @@
       </ul>
     </div>
 
-    <!-- Donor Management -->
+    <!-- OPERATIONS -->
     <div>
-      <div class="nav-section-title">Donor Management</div>
+      <div class="nav-section-title">Operations</div>
       <ul class="nav-list">
         <li class="nav-item" th:classappend="${activePage == 'donors'} ? 'active'">
           <a th:href="@{/donors}" href="/donors">
@@ -42,27 +42,9 @@
               <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
             </svg>
-            All Donors
+            Donors
           </a>
         </li>
-        <li class="nav-item" th:classappend="${activePage == 'donor-new'} ? 'active'">
-          <a th:href="@{/donors/new}" href="/donors/new">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-              <circle cx="8.5" cy="7" r="4"></circle>
-              <line x1="20" y1="8" x2="20" y2="14"></line>
-              <line x1="23" y1="11" x2="17" y2="11"></line>
-            </svg>
-            Register Donor
-          </a>
-        </li>
-      </ul>
-    </div>
-
-    <!-- Blood Operations -->
-    <div>
-      <div class="nav-section-title">Blood Operations</div>
-      <ul class="nav-list">
         <li class="nav-item" th:classappend="${activePage == 'donations'} ? 'active'">
           <a th:href="@{/donations}" href="/donations">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -71,31 +53,13 @@
             Donations
           </a>
         </li>
-        <li class="nav-item" th:classappend="${activePage == 'donation-new'} ? 'active'">
-          <a th:href="@{/donations/new}" href="/donations/new">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M12 2v6m0 0l-3-3m3 3l3-3"></path>
-              <path d="M20.88 18.09A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.29"></path>
-            </svg>
-            Record Donation
-          </a>
-        </li>
-        <li class="nav-item" th:classappend="${activePage == 'inventory'} ? 'active'">
-          <a th:href="@{/inventory}" href="/inventory">
-            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
-              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
-            </svg>
-            Inventory Stock
-          </a>
-        </li>
         <li class="nav-item" th:classappend="${activePage == 'issue-new'} ? 'active'">
           <a th:href="@{/issues/new}" href="/issues/new">
             <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <circle cx="12" cy="12" r="10"></circle>
               <polyline points="12 6 12 12 16 14"></polyline>
             </svg>
-            Issue Blood (FEFO)
+            Issue Blood
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'issues'} ? 'active'">
@@ -112,10 +76,19 @@
       </ul>
     </div>
 
-    <!-- Inventory Status Monitoring -->
+    <!-- INVENTORY -->
     <div>
-      <div class="nav-section-title">Status Monitors</div>
+      <div class="nav-section-title">Inventory</div>
       <ul class="nav-list">
+        <li class="nav-item" th:classappend="${activePage == 'inventory'} ? 'active'">
+          <a th:href="@{/inventory}" href="/inventory">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+            All Inventory
+          </a>
+        </li>
         <li class="nav-item" th:classappend="${activePage == 'near-expiry'} ? 'active'">
           <a th:href="@{/inventory/near-expiry}" href="/inventory/near-expiry">
             <svg class="nav-icon icon-near-expiry" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -123,7 +96,7 @@
               <line x1="12" y1="8" x2="12" y2="12"></line>
               <line x1="12" y1="16" x2="12.01" y2="16"></line>
             </svg>
-            Near Expiry (7-Day)
+            Near Expiry
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'expired'} ? 'active'">
@@ -139,9 +112,9 @@
       </ul>
     </div>
 
-    <!-- System -->
+    <!-- SYSTEM -->
     <div>
-      <div class="nav-section-title">System &amp; Docs</div>
+      <div class="nav-section-title">System</div>
       <ul class="nav-list">
         <li class="nav-item">
           <a th:href="@{/swagger-ui/index.html}" href="/swagger-ui/index.html" target="_blank" rel="noopener noreferrer">
@@ -149,7 +122,7 @@
               <polyline points="16 18 22 12 16 6"></polyline>
               <polyline points="8 6 2 12 8 18"></polyline>
             </svg>
-            Swagger OpenAPI
+            API Documentation
           </a>
         </li>
         <li class="nav-item" th:classappend="${activePage == 'about'} ? 'active'">

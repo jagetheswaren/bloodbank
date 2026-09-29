@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initScrollReveal();
   initLiveKpiData();
   initCtaTransitions();
+  initMobileDrawer();
 });
 
 /**
@@ -193,5 +194,42 @@ function initCtaTransitions() {
       btn.textContent = 'Opening Dashboard...';
       btn.style.opacity = '0.85';
     });
+  });
+}
+
+/**
+ * 7. Mobile Drawer Navigation for Landing Page
+ */
+function initMobileDrawer() {
+  const hamburgerBtn = document.querySelector('.landing-hamburger-btn');
+  const drawer = document.querySelector('.landing-mobile-drawer');
+  const overlay = document.querySelector('.landing-mobile-overlay');
+  const closeBtn = document.querySelector('.landing-mobile-drawer-close');
+  const drawerLinks = document.querySelectorAll('.landing-mobile-links a');
+
+  if (!hamburgerBtn || !drawer || !overlay) return;
+
+  const openDrawer = () => {
+    drawer.classList.add('open');
+    overlay.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeDrawer = () => {
+    drawer.classList.remove('open');
+    overlay.classList.remove('active');
+    document.body.style.overflow = '';
+  };
+
+  hamburgerBtn.addEventListener('click', openDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  overlay.addEventListener('click', closeDrawer);
+  drawerLinks.forEach(link => link.addEventListener('click', closeDrawer));
+
+  // Escape key closes drawer
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('open')) {
+      closeDrawer();
+    }
   });
 }
