@@ -160,6 +160,13 @@ public class DonationService {
         return donationRepository.findByDonorId(donorId, pageable).map(this::mapToResponse);
     }
 
+    @Transactional(readOnly = true)
+    public List<DonationResponse> getDonationsByDonorId(Long donorId) {
+        return donationRepository.findByDonorIdOrderByDonationDateDesc(donorId).stream()
+                .map(this::mapToResponse)
+                .collect(Collectors.toList());
+    }
+
     public DonationResponse mapToResponse(Donation donation) {
         List<BloodUnitResponse> unitResponses = donation.getBloodUnits() != null
                 ? donation.getBloodUnits().stream().map(this::mapUnitToResponse).collect(Collectors.toList())

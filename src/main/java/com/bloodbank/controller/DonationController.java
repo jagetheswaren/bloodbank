@@ -47,4 +47,11 @@ public class DonationController {
         DonationResponse response = donationService.getDonationById(id);
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/donor/{donorId}")
+    @Operation(summary = "Get donations for a specific donor", description = "Retrieves all donation sessions recorded for a specific donor")
+    public ResponseEntity<java.util.List<DonationResponse>> getDonationsByDonor(@PathVariable Long donorId) {
+        java.util.List<DonationResponse> donations = donationService.getDonationsByDonorId(donorId);
+        return ResponseEntity.ok(donations);
+    }
 }

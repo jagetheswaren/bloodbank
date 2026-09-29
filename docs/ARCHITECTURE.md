@@ -28,6 +28,7 @@ graph TD
         Ctrl2["DonationController<br/><code>/api/donations</code>"]
         Ctrl3["InventoryController<br/><code>/api/inventory</code>"]
         Ctrl4["IssueController<br/><code>/api/issues</code>"]
+        Ctrl5["NotificationController<br/><code>/api/notifications</code>"]
         GEH["GlobalExceptionHandler<br/><code>@RestControllerAdvice</code>"]
     end
 
@@ -44,6 +45,8 @@ graph TD
         S3["InventoryService<br/>- Real-time stock aggregation across 8 blood groups<br/>- Near-expiry (7-day) & expired status auto-flagging<br/>- Stale data protection"]
         S4["IssueService<br/>- FEFO (First Expire, First Out) unit selection<br/>- Duplicate issue prevention<br/>- Expired & near-expiry safety blocks"]
         SCHED["InventoryStatusScheduler<br/><code>@Scheduled(fixedRate = 60s)</code>"]
+        NEL["NotificationEventListener<br/><code>@Async @TransactionalEventListener(AFTER_COMMIT)</code>"]
+        ES["EmailService & TemplateService<br/>- Real SMTP & Fallback Logging"]
     end
 
     subgraph RepositoryLayer ["5. Persistence & Repository Layer (Spring Data JPA)"]
@@ -51,6 +54,7 @@ graph TD
         R2["DonationRepository"]
         R3["BloodUnitRepository<br/>- Custom HQL queries with FEFO ordering<br/>- Group-by stock counts<br/>- Expiry window filtering"]
         R4["IssueRecordRepository"]
+        R5["NotificationLogRepository"]
     end
 
     subgraph DatabaseLayer ["6. Database Layer"]
@@ -58,9 +62,9 @@ graph TD
         DB2[("H2 In-Memory Test DB<br/><code>bloodbank_test_db</code>")]
     end
 
-    C1 --> Ctrl1 & Ctrl2 & Ctrl3 & Ctrl4
-    C2 --> Ctrl1 & Ctrl2 & Ctrl3 & Ctrl4
-    C3 --> Ctrl1 & Ctrl2 & Ctrl3 & Ctrl4
+    C1 --> Ctrl1 & Ctrl2 & Ctrl3 & Ctrl4 & Ctrl5
+    C2 --> Ctrl1 & Ctrl2 & Ctrl3 & Ctrl4 & Ctrl5
+    C3 --> Ctrl1 & Ctrl2 & Ctrl3 & Ctrl4 & Ctrl5
 
     Ctrl1 & Ctrl2 & Ctrl3 & Ctrl4 --> DTO1 & DTO2 & DTO3
     DTO1 & DTO2 & DTO3 --> GEH
@@ -69,15 +73,19 @@ graph TD
     Ctrl2 --> S2
     Ctrl3 --> S3
     Ctrl4 --> S4
+    Ctrl5 --> R5
     SCHED --> S3
+    S1 & S2 & S3 & S4 -.->|Application Events| NEL
+    NEL --> ES
+    ES --> R5
 
     S1 --> R1 & R2
     S2 --> R2 & R3 & S1
     S3 --> R3
     S4 --> R3 & R4
 
-    R1 & R2 & R3 & R4 --> DB1
-    R1 & R2 & R3 & R4 -.-> DB2
+    R1 & R2 & R3 & R4 & R5 --> DB1
+    R1 & R2 & R3 & R4 & R5 -.-> DB2
 ```
 
 ---
@@ -90,6 +98,7 @@ graph TD
 | | `DonationController` | Handles donation registration requests and donation history. |
 | | `InventoryController` | Exposes inventory units, stock level maps across 8 blood groups, near-expiry units, and expired units. |
 | | `IssueController` | Receives blood issuing requests and returns issued unit audits. |
+| | `NotificationController` | Exposes notification audit logs and email dispatch subsystem status. |
 | | `GlobalExceptionHandler` | Centralized `@RestControllerAdvice` intercepting domain and validation exceptions, returning standardized JSON error bodies. |
 | **DTOs & Validation** | `dto.request.*` | Immutable data carriers annotated with Jakarta Bean Validation (`@NotNull`, `@NotBlank`, `@Email`, `@PastOrPresent`, `@Positive`, etc.). |
 | | `dto.response.*` | API representations preventing JPA entity leaks and circular serialization. |
@@ -98,5 +107,7 @@ graph TD
 | | `InventoryService` | Aggregates available stock across all 8 blood groups (ignoring expired, near-expiry, issued, or discarded blood), and executes status evaluations. |
 | | `IssueService` | Implements FEFO (First Expire, First Out) selection of available units, blocks unsafe units, and prevents reissue. |
 | | `InventoryStatusScheduler` | Background scheduled task periodically triggering status updates for units entering near-expiry or expired windows. |
-| **Data Access** | `repository.*` | Interfaces extending `JpaRepository` providing index-optimized JPQL queries for fast filtering and grouping. |
-| **Entities** | `entity.*` | JPA entities (`Donor`, `Donation`, `BloodUnit`, `IssueRecord`) defining tables, relations, and database constraints. |
+| | `NotificationEventListener` | Asynchronous (`@Async`, `@TransactionalEventListener(AFTER_COMMIT)`) event handler decoupling email dispatches from database commits. |
+| | `EmailService` | Production SMTP mail sender utilizing `JavaMailSender` and Thymeleaf template rendering with safe fallback logging. |
+| **Data Access** | `repository.*` | Interfaces extending `JpaRepository` (`DonorRepository`, `DonationRepository`, `BloodUnitRepository`, `IssueRecordRepository`, `NotificationLogRepository`). |
+| **Entities** | `entity.*` | JPA entities (`Donor`, `Donation`, `BloodUnit`, `IssueRecord`, `NotificationLog`) defining tables, relations, and database constraints. |

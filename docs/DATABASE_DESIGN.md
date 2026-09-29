@@ -67,6 +67,19 @@ erDiagram
         varchar(500) notes "Issuing Remarks / Clinical Indication"
         datetime created_at "Timestamp"
     }
+
+    NOTIFICATION_LOG {
+        bigint id PK "Auto Increment"
+        varchar(30) notification_type "DONOR_REGISTRATION, DONATION_RECORDED, etc."
+        varchar(150) recipient "Recipient Email Address"
+        varchar(200) subject "Email Subject Line"
+        varchar(50) related_entity_type "DONOR, DONATION, BLOOD_UNIT, ISSUE"
+        bigint related_entity_id "ID of Associated Business Entity"
+        varchar(20) status "SENT, FAILED, SKIPPED"
+        datetime sent_at "Delivery Timestamp"
+        varchar(500) failure_reason "Error Message if Failed"
+        datetime created_at "Audit Creation Timestamp"
+    }
 ```
 
 ---
@@ -116,7 +129,13 @@ erDiagram
 - **Indexes**:
   - `idx_issue_code` on `issue_code`
   - `idx_issue_unit_id` on `blood_unit_id`
-  - `idx_issue_date` on `issue_date`
+### 3.5. `notification_logs`
+- **Primary Key**: `id`
+- **Indexes**:
+  - `idx_notif_type` on `notification_type`
+  - `idx_notif_status` on `status`
+  - `idx_notif_recipient` on `recipient`
+- **Purpose**: Tracks every outbound email event (e.g., registration welcome, donation acknowledgment, near-expiry warning, expired blood quarantine, issue alert) without storing sensitive credentials.
 
 ---
 
@@ -206,6 +225,23 @@ CREATE TABLE IF NOT EXISTS issue_records (
     INDEX idx_issue_code (issue_code),
     INDEX idx_issue_unit_id (blood_unit_id),
     INDEX idx_issue_date (issue_date)
+) ENGINE=InnoDB;
+
+-- 5. Notification Logs Table
+CREATE TABLE IF NOT EXISTS notification_logs (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    notification_type VARCHAR(30) NOT NULL,
+    recipient VARCHAR(150) NOT NULL,
+    subject VARCHAR(200) NOT NULL,
+    related_entity_type VARCHAR(50),
+    related_entity_id BIGINT,
+    status VARCHAR(20) NOT NULL,
+    sent_at DATETIME,
+    failure_reason VARCHAR(500),
+    created_at DATETIME NOT NULL,
+    INDEX idx_notif_type (notification_type),
+    INDEX idx_notif_status (status),
+    INDEX idx_notif_recipient (recipient)
 ) ENGINE=InnoDB;
 ```
 

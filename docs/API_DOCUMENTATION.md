@@ -22,6 +22,7 @@ The BloodBank backend exposes a clean, intuitive RESTful API adhering to JSON st
 | **Donation** | `POST` | `/api/donations` | Record donation & generate units |
 | | `GET` | `/api/donations` | List donations with pagination |
 | | `GET` | `/api/donations/{id}` | Get donation record by ID |
+| | `GET` | `/api/donations/donor/{donorId}` | List donations for specific donor |
 | **Inventory** | `GET` | `/api/inventory` | List all inventory units |
 | | `GET` | `/api/inventory/stock` | Real-time stock counts for all 8 blood groups |
 | | `GET` | `/api/inventory/near-expiry` | Units expiring within 7 days |
@@ -31,6 +32,8 @@ The BloodBank backend exposes a clean, intuitive RESTful API adhering to JSON st
 | **Blood Issue**| `POST` | `/api/issues` | Issue units using FEFO algorithm |
 | | `GET` | `/api/issues` | List issue audit records |
 | | `GET` | `/api/issues/{id}` | Get issue record by ID |
+| **Notifications** | `GET` | `/api/notifications` | List recent email notification audit records |
+| | `GET` | `/api/notifications/status` | Get email notification subsystem status |
 
 ---
 
@@ -175,6 +178,42 @@ Registers a donation, enforces pre-save eligibility, and generates blood units.
 
 ---
 
+#### `GET /api/donations/donor/{donorId}`
+Retrieves all historical donation sessions recorded for a specific donor, ordered chronologically descending.
+
+**Response (200 OK)**:
+```json
+[
+  {
+    "id": 1,
+    "donationCode": "DON-C28F5041",
+    "donorId": 1,
+    "donorCode": "DNR-B4A198CD",
+    "donorName": "Evelyn Reed",
+    "bloodGroup": "O+",
+    "donationDate": "2026-09-28",
+    "numberOfUnits": 2,
+    "notes": "Annual community blood drive",
+    "bloodUnits": [
+      {
+        "id": 1,
+        "unitCode": "UNT-6B9A897E",
+        "donationCode": "DON-C28F5041",
+        "bloodGroup": "O+",
+        "collectionDate": "2026-09-28",
+        "expiryDate": "2026-11-09",
+        "status": "AVAILABLE",
+        "createdAt": "2026-09-28T10:46:00",
+        "updatedAt": "2026-09-28T10:46:00"
+      }
+    ],
+    "createdAt": "2026-09-28T10:46:00"
+  }
+]
+```
+
+---
+
 ### 3.3. Inventory Management
 
 #### `GET /api/inventory/stock`
@@ -248,3 +287,45 @@ Issues blood units to a patient using First Expire, First Out (FEFO) allocation.
   "path": "/api/issues"
 }
 ```
+
+---
+
+### 3.5. Notification Subsystem
+
+#### `GET /api/notifications`
+Retrieves the latest 50 email notification attempts (Sent, Failed, or Skipped) for audit inspection. Never exposes SMTP passwords or secrets.
+
+**Response (200 OK)**:
+```json
+[
+  {
+    "id": 1,
+    "notificationType": "DONATION_RECORDED",
+    "recipient": "marcus.donor@example.test",
+    "subject": "BloodBank — Donation Recorded Successfully",
+    "relatedEntityType": "DONATION",
+    "relatedEntityId": 1,
+    "status": "SENT",
+    "sentAt": "2026-09-28T10:46:02",
+    "failureReason": null,
+    "createdAt": "2026-09-28T10:46:01"
+  }
+]
+```
+
+---
+
+#### `GET /api/notifications/status`
+Checks whether real email notifications and SMTP sending are active, along with administrative email targets and total recorded notification logs.
+
+**Response (200 OK)**:
+```json
+{
+  "mailEnabled": false,
+  "fromAddress": "no-reply@bloodbank.org",
+  "adminRecipient": "admin@bloodbank.org",
+  "eligibilityRemindersEnabled": false,
+  "totalLogsRecorded": 12
+}
+```
+

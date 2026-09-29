@@ -160,4 +160,26 @@ class DonationServiceTest {
 
         verify(donationRepository, never()).save(any(Donation.class));
     }
+
+    @Test
+    @DisplayName("Should successfully retrieve list of donations for a donor")
+    void testGetDonationsByDonorId_Success() {
+        Donation d = Donation.builder()
+                .id(100L)
+                .donationCode("DON-TEST100")
+                .donor(donor)
+                .donationDate(LocalDate.now().minusDays(10))
+                .numberOfUnits(1)
+                .build();
+
+        when(donationRepository.findByDonorIdOrderByDonationDateDesc(1L)).thenReturn(java.util.List.of(d));
+
+        java.util.List<DonationResponse> list = donationService.getDonationsByDonorId(1L);
+
+        assertNotNull(list);
+        assertEquals(1, list.size());
+        assertEquals("DON-TEST100", list.get(0).getDonationCode());
+        assertEquals(1L, list.get(0).getDonorId());
+        verify(donationRepository, times(1)).findByDonorIdOrderByDonationDateDesc(1L);
+    }
 }

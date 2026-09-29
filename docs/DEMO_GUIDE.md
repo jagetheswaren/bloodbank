@@ -156,5 +156,5 @@ Open two terminal windows (PowerShell) and a browser:
   ```powershell
   .\mvnw.cmd test
   ```
-- Show: **37 tests passed, 0 failures, BUILD SUCCESS**.
+- Show: **42 tests passed, 0 failures, BUILD SUCCESS**.
 - Conclude: *"All business rules and edge cases are verified with JUnit 5 and MockMvc integration tests."*

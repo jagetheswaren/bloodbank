@@ -45,4 +45,4 @@ This guide maps the BloodBank Inventory and Donor Eligibility Tracker codebase t
 | :--- | :--- | :--- |
 | **5-Minute Live Demo** | Step-by-step walkthrough covering donor registration, gap rejection, donation unit generation, stock verification, FEFO issuing, and test execution. | `docs/DEMO_GUIDE.md` |
 | **Viva Voce Defense** | Comprehensive questions and concise student-friendly answers covering Spring Boot, JPA, transactions, REST, and DBMS theory. | `docs/VIVA_QUESTIONS.md` |
-| **Automated Test Evidence** | 37 automated unit, service, and MockMvc integration tests running against in-memory H2 without requiring live MySQL connection. | `src/test/java/` |
+| **Automated Test Evidence** | 42 automated unit, service, and MockMvc integration tests running against in-memory H2 without requiring live MySQL connection. | `src/test/java/` |
