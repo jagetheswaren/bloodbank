@@ -1,322 +1,893 @@
 /* ==========================================================================
-   Page-Specific Styles
+   Blood Bank Design System - Pages CSS
+   Premium Clinical Medical Operations Platform & Landing Page
+   Sections 46 - 112
    ========================================================================== */
 
-/* Landing Page Styles */
-.hero-section {
-  padding: 4rem 1.5rem 3rem;
-  max-width: 980px;
-  margin: 0 auto;
-  text-align: center;
+/* --------------------------------------------------------------------------
+   1. LANDING PAGE NAVBAR (Section 50)
+   -------------------------------------------------------------------------- */
+.landing-nav {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  width: 100%;
+  background: rgba(247, 248, 250, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid transparent;
+  transition: all var(--motion-normal, 220ms) var(--ease-smooth);
 }
 
-.hero-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.35rem 0.85rem;
-  background-color: var(--primary-subtle);
-  border: 1px solid var(--primary-border);
-  color: var(--primary);
-  border-radius: var(--radius-full);
-  font-size: 0.8rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-}
-
-.hero-title {
-  font-size: 2.75rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1.15;
-  letter-spacing: -0.03em;
-  margin-bottom: 1.25rem;
-}
-
-.hero-title span {
-  color: var(--primary);
-}
-
-.hero-desc {
-  font-size: 1.15rem;
-  color: var(--text-secondary);
-  max-width: 680px;
-  margin: 0 auto 2rem;
-  line-height: 1.6;
-}
-
-.hero-cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.feature-cards-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
-  margin-top: 3.5rem;
-  text-align: left;
-}
-
-.feature-card {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-light);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
+.landing-nav.is-scrolled {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom-color: var(--color-border);
   box-shadow: var(--shadow-sm);
 }
 
-.feature-icon-wrap {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-md);
-  background-color: var(--primary-subtle);
-  color: var(--primary);
+.landing-nav-inner {
+  max-width: var(--content-max-width, 1400px);
+  margin: 0 auto;
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.landing-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.brand-symbol {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-primary-accent));
+  border-radius: 9px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1rem;
+  color: #FFFFFF;
+  box-shadow: 0 4px 10px rgba(127, 29, 45, 0.25);
 }
 
-.feature-card h3 {
-  font-size: 1.05rem;
-  margin-bottom: 0.5rem;
+.landing-links {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.feature-card p {
-  font-size: 0.88rem;
-  color: var(--text-secondary);
-  line-height: 1.5;
+.landing-links a {
+  text-decoration: none;
+  color: var(--color-text-secondary);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: color var(--motion-fast, 120ms) ease;
 }
 
-/* Eligibility Panel */
-.eligibility-banner {
+.landing-links a:hover {
+  color: var(--color-primary);
+}
+
+/* --------------------------------------------------------------------------
+   2. HERO SECTION & 3D VISUAL (Sections 51, 52, 53)
+   -------------------------------------------------------------------------- */
+.landing-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 64px 24px 80px;
+  background: radial-gradient(circle at 85% 25%, rgba(127, 29, 45, 0.05), transparent 45%),
+              radial-gradient(circle at 15% 75%, rgba(180, 35, 24, 0.03), transparent 40%);
+}
+
+.hero-grid {
+  max-width: var(--content-max-width, 1400px);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 48px;
+  align-items: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background-color: var(--color-primary-soft);
+  border: 1px solid var(--color-primary-border);
+  color: var(--color-primary);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  letter-spacing: 0.02em;
+}
+
+.hero-badge::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  background-color: var(--color-primary);
+  border-radius: 50%;
+  animation: beaconPulse 2s infinite ease-in-out;
+}
+
+.hero-headline {
+  font-size: 3.25rem;
+  font-weight: 800;
+  line-height: 1.12;
+  color: var(--color-text);
+  letter-spacing: -0.035em;
+  margin-bottom: 20px;
+}
+
+.hero-headline span {
+  color: var(--color-primary);
+}
+
+.hero-subtext {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 540px;
+  margin-bottom: 32px;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 28px;
+  flex-wrap: wrap;
+}
+
+.hero-verification-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+}
+
+.hero-verification-note svg {
+  color: var(--color-success);
+}
+
+/* Pseudo-3D Blood Intelligence Core (Section 52) */
+.blood-core-viewport {
+  perspective: 1200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-height: 440px;
+}
+
+.blood-core-3d {
+  width: 380px;
+  height: 380px;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: coreFloat 6s ease-in-out infinite;
+  transition: transform 0.15s ease-out;
+}
+
+.core-ambient-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 260px;
+  height: 260px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(127, 29, 45, 0.16) 0%, rgba(180, 35, 24, 0.04) 60%, transparent 80%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.core-orbit-outer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 340px;
+  height: 340px;
+  margin-top: -170px;
+  margin-left: -170px;
+  border: 1px dashed rgba(127, 29, 45, 0.22);
+  border-radius: 50%;
+  animation: orbitRotate 45s linear infinite;
+  transform-style: preserve-3d;
+}
+
+.core-orbit-inner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 240px;
+  height: 240px;
+  margin-top: -120px;
+  margin-left: -120px;
+  border: 1px solid rgba(228, 231, 236, 0.8);
+  border-radius: 50%;
+  animation: counterRotate 30s linear infinite;
+}
+
+/* Orbiting Blood Group Nodes */
+.orbit-node {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  animation: counterRotate 45s linear infinite;
+}
+
+.orbit-node:nth-child(1) { top: -18px; left: 50%; margin-left: -18px; }
+.orbit-node:nth-child(2) { top: 50%; right: -18px; margin-top: -18px; }
+.orbit-node:nth-child(3) { bottom: -18px; left: 50%; margin-left: -18px; }
+.orbit-node:nth-child(4) { top: 50%; left: -18px; margin-top: -18px; }
+
+/* Central Stylized Blood Bag / Intelligence Core */
+.core-central-droplet {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height: 180px;
+  transform: translate(-50%, -50%) translateZ(30px);
+  background: linear-gradient(145deg, #991B2E, #7F1D2D 75%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  box-shadow: 0 16px 36px rgba(127, 29, 45, 0.35),
+              inset 0 4px 12px rgba(255, 255, 255, 0.35),
+              inset 0 -8px 16px rgba(0, 0, 0, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  text-align: center;
+  padding: 16px;
+}
+
+.core-central-droplet svg {
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.core-central-label {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-top: 6px;
+  opacity: 0.95;
+}
+
+/* Orbiting Status Badges */
+.status-pill-3d {
+  position: absolute;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-pill-3d.available {
+  top: 15%;
+  right: 5%;
+  color: var(--color-success);
+  border-color: var(--color-success-border);
+}
+
+.status-pill-3d.near-expiry {
+  bottom: 20%;
+  right: 0%;
+  color: var(--color-warning);
+  border-color: var(--color-warning-border);
+}
+
+.status-pill-3d.fefo {
+  bottom: 12%;
+  left: 5%;
+  color: var(--color-info);
+  border-color: var(--color-info-border);
+}
+
+/* --------------------------------------------------------------------------
+   3. LIVE SYSTEM OVERVIEW SECTION (Section 54)
+   -------------------------------------------------------------------------- */
+.landing-section {
+  padding: 72px 24px;
+  max-width: var(--content-max-width, 1400px);
+  margin: 0 auto;
+}
+
+.section-header {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 48px;
+}
+
+.section-tag {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-primary);
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: var(--color-text);
+  letter-spacing: -0.025em;
+  margin-bottom: 12px;
+}
+
+.section-desc {
+  font-size: 1rem;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.live-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.kpi-live-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--motion-normal) var(--ease-smooth),
+              box-shadow var(--motion-normal) var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi-live-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+}
+
+.kpi-live-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background-color: var(--color-primary);
+}
+
+.kpi-live-card.success::before { background-color: var(--color-success); }
+.kpi-live-card.warning::before { background-color: var(--color-warning); }
+.kpi-live-card.danger::before { background-color: var(--color-danger); }
+.kpi-live-card.info::before { background-color: var(--color-info); }
+
+.kpi-live-num {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1;
+  margin: 12px 0 6px;
+  font-feature-settings: "tnum";
+}
+
+.kpi-live-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+.kpi-live-sub {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  margin-top: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   4. PROBLEM VS SOLUTION SPLIT SECTION (Section 55)
+   -------------------------------------------------------------------------- */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+  position: relative;
+}
+
+.comparison-col {
+  background: var(--color-surface);
   border-radius: var(--radius-lg);
-  padding: 1.5rem;
+  padding: 36px 32px;
+  border: 1px solid var(--color-border);
+}
+
+.comparison-col.problem {
+  border-left: 4px solid var(--color-danger);
+  background: #FCFDFE;
+}
+
+.comparison-col.solution {
+  border-left: 4px solid var(--color-success);
+  background: #FFFFFF;
+  box-shadow: var(--shadow-sm);
+}
+
+.comparison-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.comparison-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.comparison-item {
   display: flex;
   align-items: flex-start;
-  gap: 1.25rem;
-  margin-bottom: 1.5rem;
-  border: 1px solid transparent;
+  gap: 12px;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
 }
 
-.eligibility-banner.eligible {
-  background-color: var(--status-available-bg);
-  border-color: var(--status-available-border);
+.comparison-item strong {
+  color: var(--color-text);
 }
 
-.eligibility-banner.not-eligible {
-  background-color: var(--status-near-expiry-bg);
-  border-color: var(--status-near-expiry-border);
+/* --------------------------------------------------------------------------
+   5. CORE HORIZONTAL WORKFLOW VISUAL (Section 56)
+   -------------------------------------------------------------------------- */
+.workflow-track {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin: 40px 0;
+  padding: 20px 0;
 }
 
-.eligibility-icon-wrap {
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-full);
+.workflow-track::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  right: 40px;
+  height: 2px;
+  background: linear-gradient(90deg, #E4E7EC 0%, var(--color-primary-border) 50%, #E4E7EC 100%);
+  z-index: 1;
+}
+
+.workflow-node {
+  position: relative;
+  z-index: 2;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 14px;
+  width: 140px;
+  text-align: center;
+  box-shadow: var(--shadow-xs);
+  transition: all var(--motion-normal) var(--ease-smooth);
+}
+
+.workflow-node:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-primary);
+  box-shadow: var(--shadow-md);
+}
+
+.workflow-node-icon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 10px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.workflow-node-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 4px;
+}
+
+.workflow-node-desc {
+  font-size: 0.72rem;
+  color: var(--color-text-secondary);
+  line-height: 1.35;
+}
+
+/* --------------------------------------------------------------------------
+   6. SAFETY RULES SHIELD SECTION (Section 58)
+   -------------------------------------------------------------------------- */
+.safety-rules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.safety-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: var(--shadow-xs);
+  transition: border-color var(--motion-fast) ease;
+}
+
+.safety-card:hover {
+  border-color: var(--color-primary);
+}
+
+.safety-icon-wrap {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-primary-soft);
+  color: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 
-.eligible .eligibility-icon-wrap {
-  background-color: #DCFCE7;
-  color: var(--status-available);
-}
-
-.not-eligible .eligibility-icon-wrap {
-  background-color: #FEF3C7;
-  color: var(--status-near-expiry);
-}
-
-.eligibility-title {
-  font-size: 1.2rem;
-  font-weight: 700;
-  margin-bottom: 0.25rem;
-}
-
-.eligible .eligibility-title { color: #166534; }
-.not-eligible .eligibility-title { color: #92400E; }
-
-.eligibility-message {
-  font-size: 0.92rem;
-  color: var(--text-secondary);
-  margin-bottom: 0.75rem;
-}
-
-.eligibility-metrics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-
-.eligibility-metric-item {
-  display: flex;
-  flex-direction: column;
-}
-
-.metric-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.metric-value {
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
-/* Donor Profile Details Card */
-.profile-meta-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.25rem;
-  padding: 1.25rem 0;
-}
-
-.meta-field {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-}
-
-.meta-field-label {
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.meta-field-value {
+.safety-title {
   font-size: 0.95rem;
-  font-weight: 500;
-  color: var(--text-primary);
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 4px;
 }
 
-/* Guided Form Workflow Steps */
-.step-indicator-bar {
+.safety-desc {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------------------------
+   7. ARCHITECTURE VISUALIZATION (Section 59)
+   -------------------------------------------------------------------------- */
+.arch-layers {
+  max-width: 840px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.arch-layer-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 2rem;
-  position: relative;
+  box-shadow: var(--shadow-xs);
+  cursor: pointer;
+  transition: all var(--motion-fast) ease;
 }
 
-.step-indicator-bar::before {
+.arch-layer-card:hover {
+  border-color: var(--color-primary);
+  transform: translateX(4px);
+  background-color: #FDFEFE;
+}
+
+.arch-layer-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  color: var(--color-text);
+}
+
+.arch-layer-detail {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  font-family: monospace;
+}
+
+/* --------------------------------------------------------------------------
+   8. BLOOD GROUP STOCK GRID (Section 66)
+   -------------------------------------------------------------------------- */
+.blood-stock-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.stock-tile {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-xs);
+  transition: transform var(--motion-normal) var(--ease-smooth),
+              box-shadow var(--motion-normal) var(--ease-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.stock-tile::after {
   content: "";
   position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background-color: var(--border-subtle);
-  z-index: 1;
-  transform: translateY(-50%);
+  top: -20px;
+  right: -20px;
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(127, 29, 45, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
-.step-node {
-  position: relative;
-  z-index: 2;
-  background-color: var(--bg-surface);
-  padding: 0.25rem 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-subtle);
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-}
-
-.step-node.active {
-  border-color: var(--primary);
-  color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-subtle);
-}
-
-.step-node.completed {
-  border-color: var(--success);
-  color: var(--success);
-}
-
-.step-number {
-  width: 22px;
-  height: 22px;
-  border-radius: var(--radius-full);
-  background-color: var(--bg-subtle);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
-}
-
-.step-node.active .step-number {
-  background-color: var(--primary);
-  color: var(--text-inverse);
-}
-
-.step-node.completed .step-number {
-  background-color: var(--success);
-  color: var(--text-inverse);
-}
-
-/* FEFO Information Card */
-.fefo-banner {
-  background-color: #F8FAFC;
-  border: 1px solid #E2E8F0;
-  border-left: 4px solid var(--primary);
-  border-radius: var(--radius-md);
-  padding: 1rem 1.25rem;
-  margin-bottom: 1.5rem;
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  font-size: 0.88rem;
-}
-
-.fefo-banner strong {
-  color: var(--primary);
-}
-
-/* Success Card Experience */
-.success-receipt-card {
-  background-color: var(--bg-surface);
-  border: 1px solid var(--status-available-border);
-  border-radius: var(--radius-lg);
-  padding: 2rem;
-  text-align: center;
-  max-width: 580px;
-  margin: 1.5rem auto;
+.stock-tile:hover {
+  transform: translateY(-2px);
   box-shadow: var(--shadow-md);
 }
 
-.success-check-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-full);
-  background-color: var(--status-available-bg);
-  color: var(--status-available);
+.stock-tile-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.25rem;
+  justify-content: space-between;
+  margin-bottom: 12px;
 }
 
-.receipt-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  text-align: left;
-  background-color: var(--bg-subtle);
-  padding: 1.25rem;
-  border-radius: var(--radius-md);
-  margin: 1.5rem 0;
+.stock-group-badge {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-primary);
+  line-height: 1;
 }
+
+.stock-status-pill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--radius-full);
+  text-transform: uppercase;
+}
+
+.stock-status-pill.healthy { background: var(--color-success-bg); color: var(--color-success); border: 1px solid var(--color-success-border); }
+.stock-status-pill.low { background: var(--color-warning-bg); color: var(--color-warning); border: 1px solid var(--color-warning-border); }
+.stock-status-pill.critical { background: var(--color-danger-bg); color: var(--color-danger); border: 1px solid var(--color-danger-border); }
+.stock-status-pill.empty { background: var(--color-neutral-bg); color: var(--color-neutral); border: 1px solid var(--color-neutral-border); }
+
+.stock-tile-count {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--color-text);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stock-tile-unit {
+  font-size: 0.78rem;
+  color: var(--color-text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   9. FEFO TIMELINE COMPONENT (Sections 74, 78)
+   -------------------------------------------------------------------------- */
+.fefo-visualizer-box {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+  margin-top: 16px;
+}
+
+.fefo-pipeline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  overflow-x: auto;
+  padding: 12px 4px;
+}
+
+.fefo-unit-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 14px;
+  min-width: 140px;
+  position: relative;
+  text-align: center;
+}
+
+.fefo-unit-card.selected {
+  border-color: var(--color-info);
+  background-color: var(--color-info-bg);
+  box-shadow: 0 0 0 2px rgba(23, 92, 211, 0.15);
+}
+
+.fefo-unit-card.excluded {
+  opacity: 0.6;
+  border-style: dashed;
+  background-color: var(--color-neutral-bg);
+}
+
+.fefo-priority-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--color-info);
+  margin-bottom: 4px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 36px;
+  }
+  .hero-subtext {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .hero-cta-group {
+    justify-content: center;
+  }
+  .hero-verification-note {
+    justify-content: center;
+  }
+  .blood-stock-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .comparison-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .landing-links {
+    display: none;
+  }
+  .hero-headline {
+    font-size: 2.25rem;
+  }
+  .workflow-track {
+    flex-direction: column;
+    gap: 16px;
+  }
+  .workflow-track::before {
+    display: none;
+  }
+  .workflow-node {
+    width: 100%;
+  }
+  .blood-stock-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Landing CTA Card (Section 104) */
+.landing-cta-card {
+  padding: 48px 32px;
+  background: linear-gradient(145deg, #FFFFFF, var(--color-primary-soft));
+  border-color: var(--color-primary-border);
+  text-align: center;
+}
+
+.landing-cta-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.landing-cta-desc {
+  color: var(--color-text-secondary);
+  max-width: 580px;
+  margin: 0 auto 28px;
+  line-height: 1.6;
+}
+
+.landing-cta-actions {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+/* Landing Footer (Section 105) */
+.landing-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: 40px 24px;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.landing-footer-inner {
+  max-width: var(--content-max-width, 1400px);
+  margin: 0 auto;
+}
+
+.landing-footer-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 6px;
+}
+
+.landing-footer-tech {
+  font-size: 0.82rem;
+  color: var(--color-text-secondary);
+  margin-bottom: 16px;
+}
+
+.landing-footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  font-size: 0.85rem;
+  margin-bottom: 20px;
+}
+
+.landing-footer-links a {
+  color: var(--color-text-secondary);
+  text-decoration: none;
+}
+
+.landing-footer-links a:hover {
+  color: var(--color-primary);
+}
+
+.landing-footer-tagline {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+

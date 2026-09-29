@@ -30,6 +30,9 @@ class InventoryServiceTest {
     @Mock
     private BloodUnitRepository bloodUnitRepository;
 
+    @Mock
+    private org.springframework.context.ApplicationEventPublisher eventPublisher;
+
     @Spy
     private BloodBankProperties bloodBankProperties = new BloodBankProperties();
 

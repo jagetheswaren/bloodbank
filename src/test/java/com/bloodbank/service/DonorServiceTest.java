@@ -37,6 +37,9 @@ class DonorServiceTest {
     @Mock
     private DonationRepository donationRepository;
 
+    @Mock
+    private org.springframework.context.ApplicationEventPublisher eventPublisher;
+
     @Spy
     private BloodBankProperties bloodBankProperties = new BloodBankProperties();
 

@@ -15,6 +15,7 @@ public class BloodBankProperties {
     private Inventory inventory = new Inventory();
     private BloodUnit bloodUnit = new BloodUnit();
     private Demo demo = new Demo();
+    private Mail mail = new Mail();
 
     @Getter
     @Setter
@@ -50,5 +51,29 @@ public class BloodBankProperties {
          * Whether to seed synthetic demo records on application startup.
          */
         private boolean seedEnabled = true;
+    }
+
+    @Getter
+    @Setter
+    public static class Mail {
+        /**
+         * Whether email notifications are enabled.
+         */
+        private boolean enabled = false;
+
+        /**
+         * Sender email address.
+         */
+        private String from = "no-reply@bloodbank.org";
+
+        /**
+         * Operational/Admin alert recipient email address.
+         */
+        private String adminEmail = "admin@bloodbank.org";
+
+        /**
+         * Whether daily scheduled donor eligibility reminders are enabled.
+         */
+        private boolean eligibilityRemindersEnabled = false;
     }
 }

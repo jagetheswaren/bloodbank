@@ -37,6 +37,9 @@ class IssueServiceTest {
     @Mock
     private IssueRecordRepository issueRecordRepository;
 
+    @Mock
+    private org.springframework.context.ApplicationEventPublisher eventPublisher;
+
     @Spy
     private BloodBankProperties bloodBankProperties = new BloodBankProperties();
 

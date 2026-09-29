@@ -1,12 +1,23 @@
 /* ==========================================================================
-   Animations & Transitions
-   Subtle, Professional, Accessible Micro-interactions
+   Blood Bank Design System - Animation & Motion System
+   Section 82, 83, 84, 85, 92 Specification
+   Subtle, Clinical, Human-Designed Micro-interactions
    ========================================================================== */
 
+/* Keyframe Definitions */
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
   }
   to {
     opacity: 1;
@@ -14,10 +25,10 @@
   }
 }
 
-@keyframes slideInUp {
+@keyframes fadeDown {
   from {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(-8px);
   }
   to {
     opacity: 1;
@@ -36,6 +47,67 @@
   }
 }
 
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Pseudo-3D Hero Visual Keyframes (Sections 51, 52) */
+@keyframes coreFloat {
+  0%, 100% {
+    transform: translateY(0) rotateX(12deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotateX(14deg) rotateY(4deg);
+  }
+}
+
+@keyframes orbitRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes counterRotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+@keyframes beaconPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.9;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.4;
+  }
+}
+
 @keyframes shimmer {
   0% {
     background-position: -200% 0;
@@ -45,24 +117,115 @@
   }
 }
 
-@keyframes pulseSubtle {
-  0%, 100% {
+@keyframes toastEnter {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.95);
+  }
+  to {
     opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
+    transform: translateY(0) scale(1);
   }
 }
 
+@keyframes modalEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Utility Animation Classes */
 .animate-fade-in {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  animation: fadeIn var(--motion-normal, 220ms) var(--ease-smooth) forwards;
 }
 
-.animate-slide-up {
-  animation: slideInUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.animate-fade-up {
+  animation: fadeUp var(--motion-slow, 420ms) var(--ease-smooth) forwards;
 }
 
-/* Reduced Motion Override for Accessibility */
+.animate-scale-in {
+  animation: scaleIn var(--motion-normal, 220ms) var(--ease-smooth) forwards;
+}
+
+/* Scroll Reveal via IntersectionObserver (Section 83) */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity var(--motion-slow, 420ms) var(--ease-smooth),
+              transform var(--motion-slow, 420ms) var(--ease-smooth);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger Children Support */
+[data-reveal-stagger] > * {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity var(--motion-slow, 420ms) var(--ease-smooth),
+              transform var(--motion-slow, 420ms) var(--ease-smooth);
+}
+
+[data-reveal-stagger].is-revealed > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-reveal-stagger].is-revealed > *:nth-child(1) { transition-delay: 50ms; }
+[data-reveal-stagger].is-revealed > *:nth-child(2) { transition-delay: 100ms; }
+[data-reveal-stagger].is-revealed > *:nth-child(3) { transition-delay: 150ms; }
+[data-reveal-stagger].is-revealed > *:nth-child(4) { transition-delay: 200ms; }
+[data-reveal-stagger].is-revealed > *:nth-child(5) { transition-delay: 250ms; }
+[data-reveal-stagger].is-revealed > *:nth-child(6) { transition-delay: 300ms; }
+[data-reveal-stagger].is-revealed > *:nth-child(7) { transition-delay: 350ms; }
+[data-reveal-stagger].is-revealed > *:nth-child(8) { transition-delay: 400ms; }
+
+/* Micro-interaction Tokens (Section 84) */
+button, .btn {
+  transition: background-color var(--motion-fast, 120ms) ease,
+              border-color var(--motion-fast, 120ms) ease,
+              color var(--motion-fast, 120ms) ease,
+              transform var(--motion-fast, 120ms) ease,
+              box-shadow var(--motion-fast, 120ms) ease;
+}
+
+button:active, .btn:active {
+  transform: scale(0.98);
+}
+
+.card-interactive {
+  transition: transform var(--motion-normal, 220ms) var(--ease-smooth),
+              box-shadow var(--motion-normal, 220ms) var(--ease-smooth),
+              border-color var(--motion-normal, 220ms) var(--ease-smooth);
+}
+
+.card-interactive:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Page Transition Wrapper (Section 85) */
+.page-container {
+  animation: fadeUp 220ms var(--ease-smooth) forwards;
+}
+
+/* Skeleton Loading Shimmer (Section 86) */
+.skeleton {
+  background: linear-gradient(90deg, #F1F3F5 25%, #E9ECEF 50%, #F1F3F5 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  border-radius: var(--radius-sm);
+}
+
+/* WCAG Reduced Motion Protection (Section 92) */
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -71,5 +234,10 @@
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
+  }
+  
+  [data-reveal] {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

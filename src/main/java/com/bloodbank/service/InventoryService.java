@@ -19,6 +19,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.context.ApplicationEventPublisher;
+import com.bloodbank.event.BloodUnitStatusChangedEvent;
+
+import java.time.temporal.ChronoUnit;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -26,6 +31,7 @@ public class InventoryService {
 
     private final BloodUnitRepository bloodUnitRepository;
     private final BloodBankProperties bloodBankProperties;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional(readOnly = true)
     public Map<String, Long> getStockLevels() {
@@ -105,12 +111,23 @@ public class InventoryService {
                 continue;
             }
 
+            BloodUnitStatus oldStatus = unit.getStatus();
             if (unit.getExpiryDate().isBefore(today)) {
                 if (unit.getStatus() != BloodUnitStatus.EXPIRED) {
                     log.warn("Unit [{}] has passed expiry date ({}). Changing status from {} to EXPIRED.",
                             unit.getUnitCode(), unit.getExpiryDate(), unit.getStatus());
                     unit.setStatus(BloodUnitStatus.EXPIRED);
                     updatedCount++;
+
+                    eventPublisher.publishEvent(new BloodUnitStatusChangedEvent(
+                            unit.getId(),
+                            unit.getUnitCode(),
+                            unit.getBloodGroup(),
+                            unit.getExpiryDate(),
+                            oldStatus,
+                            BloodUnitStatus.EXPIRED,
+                            0
+                    ));
                 }
             } else if (!unit.getExpiryDate().isAfter(nearExpiryCutoff)) {
                 if (unit.getStatus() == BloodUnitStatus.AVAILABLE) {
@@ -118,6 +135,17 @@ public class InventoryService {
                             unit.getUnitCode(), unit.getExpiryDate(), nearExpiryDays);
                     unit.setStatus(BloodUnitStatus.NEAR_EXPIRY);
                     updatedCount++;
+
+                    long daysLeft = ChronoUnit.DAYS.between(today, unit.getExpiryDate());
+                    eventPublisher.publishEvent(new BloodUnitStatusChangedEvent(
+                            unit.getId(),
+                            unit.getUnitCode(),
+                            unit.getBloodGroup(),
+                            unit.getExpiryDate(),
+                            oldStatus,
+                            BloodUnitStatus.NEAR_EXPIRY,
+                            Math.max(0, daysLeft)
+                    ));
                 }
             }
         }

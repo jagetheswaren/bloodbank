@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
+import com.bloodbank.event.BloodIssuedEvent;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -35,6 +38,7 @@ public class IssueService {
     private final BloodUnitRepository bloodUnitRepository;
     private final IssueRecordRepository issueRecordRepository;
     private final BloodBankProperties bloodBankProperties;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public IssueResponse issueBlood(IssueRequest request) {
@@ -105,6 +109,16 @@ public class IssueService {
             log.info("Blood unit [{}] (Group: {}, Expiry: {}) successfully ISSUED. IssueCode: {}, Patient: {}, Hospital: {}",
                     unit.getUnitCode(), unit.getBloodGroup().getDisplayValue(), unit.getExpiryDate(),
                     savedRecord.getIssueCode(), savedRecord.getPatientName(), savedRecord.getHospitalName());
+
+            eventPublisher.publishEvent(new BloodIssuedEvent(
+                    savedRecord.getId(),
+                    savedRecord.getIssueCode(),
+                    unit.getUnitCode(),
+                    unit.getBloodGroup(),
+                    savedRecord.getPatientName(),
+                    savedRecord.getHospitalName(),
+                    savedRecord.getIssueDate()
+            ));
 
             issuedRecordResponses.add(mapToRecordResponse(savedRecord));
         }

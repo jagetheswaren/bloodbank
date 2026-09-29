@@ -26,6 +26,9 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import org.springframework.context.ApplicationEventPublisher;
+import com.bloodbank.event.DonationRecordedEvent;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -35,6 +38,7 @@ public class DonationService {
     private final BloodUnitRepository bloodUnitRepository;
     private final DonorService donorService;
     private final BloodBankProperties bloodBankProperties;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public DonationResponse registerDonation(DonationCreateRequest request) {
@@ -122,6 +126,19 @@ public class DonationService {
             log.info("BloodUnit created: code={}, group={}, expiry={}, status={}",
                     bu.getUnitCode(), bu.getBloodGroup(), bu.getExpiryDate(), bu.getStatus());
         }
+
+        LocalDate nextEligible = request.getDonationDate().plusDays(bloodBankProperties.getDonation().getMinimumGapDays());
+        eventPublisher.publishEvent(new DonationRecordedEvent(
+                savedDonation.getId(),
+                savedDonation.getDonationCode(),
+                donor.getId(),
+                donor.getName(),
+                donor.getEmail(),
+                donor.getBloodGroup(),
+                savedUnits.size(),
+                savedDonation.getDonationDate(),
+                nextEligible
+        ));
 
         return mapToResponse(savedDonation);
     }

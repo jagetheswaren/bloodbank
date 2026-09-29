@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donation Recorded Successfully</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #F7F8FA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #17202A;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F7F8FA; padding: 32px 16px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" style="max-width: 560px; background-color: #FFFFFF; border-radius: 12px; border: 1px solid #E4E7EC; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #7F1D2D; padding: 28px 32px; text-align: left;">
+                            <h1 style="margin: 0; font-size: 20px; font-weight: 700; color: #FFFFFF;">BloodBank Healthcare</h1>
+                            <p style="margin: 4px 0 0 0; font-size: 13px; color: #FDF2F4; opacity: 0.9;">Official Donation Receipt & Lifecycle Log</p>
+                        </td>
+                    </tr>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 32px;">
+                            <div style="background-color: #ECFDF3; border: 1px solid #D1FADF; border-radius: 8px; padding: 12px 16px; margin-bottom: 20px;">
+                                <p style="margin: 0; font-size: 14px; font-weight: 600; color: #067647;">✓ Donation Successfully Recorded</p>
+                            </div>
+
+                            <h2 style="margin: 0 0 12px 0; font-size: 18px; font-weight: 600; color: #17202A;">Dear <span th:text="${donorName}">Donor</span>,</h2>
+                            <p style="margin: 0 0 20px 0; font-size: 14px; line-height: 1.6; color: #667085;">
+                                Thank you for your generous blood donation. Your contribution has been safely logged in our inventory tracking database and individual blood units have been prepared for clinical screening and safe FEFO issuing.
+                            </p>
+
+                            <!-- Donation Summary Table -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F8F9FA; border: 1px solid #E4E7EC; border-radius: 8px; margin-bottom: 24px;">
+                                <tr>
+                                    <td style="padding: 16px 20px;">
+                                        <table role="presentation" width="100%" cellspacing="0" cellpadding="6">
+                                            <tr>
+                                                <td width="45%" style="font-size: 13px; color: #667085;">Donation Code:</td>
+                                                <td width="55%" style="font-size: 14px; color: #17202A; font-weight: 700; font-family: monospace;" th:text="${donationCode}">DON-00000000</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 13px; color: #667085;">Blood Group:</td>
+                                                <td style="font-size: 14px; color: #7F1D2D; font-weight: 700;" th:text="${bloodGroup}">O+</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 13px; color: #667085;">Units Donated:</td>
+                                                <td style="font-size: 14px; color: #17202A; font-weight: 600;" th:text="${units} + ' Unit(s)'">1 Unit(s)</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 13px; color: #667085;">Donation Date:</td>
+                                                <td style="font-size: 13px; color: #17202A;" th:text="${donationDate}">Today</td>
+                                            </tr>
+                                            <tr style="border-top: 1px solid #E4E7EC;">
+                                                <td style="font-size: 13px; color: #067647; font-weight: 700; padding-top: 8px;">Next Eligible Date:</td>
+                                                <td style="font-size: 14px; color: #067647; font-weight: 700; padding-top: 8px;" th:text="${nextEligibleDate}">90 Days Later</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin: 0; font-size: 13px; line-height: 1.5; color: #667085;">
+                                Please take adequate rest and maintain hydration. In compliance with medical safety guidelines, your donor record is now in a 90-day cooldown period until your next eligible date.
+                            </p>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #F1F3F5; padding: 20px 32px; border-top: 1px solid #E4E7EC; text-align: center;">
+                            <p style="margin: 0; font-size: 12px; color: #98A2B3;">
+                                BloodBank Inventory & Donor Safety Platform<br>
+                                Automated transaction confirmation • No reply required
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

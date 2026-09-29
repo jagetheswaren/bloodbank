@@ -7,12 +7,14 @@ This guide provides step-by-step instructions for running and evaluating the app
 ## 1. Quick Startup
 
 ### Option A: Using the PowerShell Startup Script
+
 ```powershell
 cd C:\Users\jaget\Downloads\bloodbank\bloodbank
 .\scripts\start_app.ps1
 ```
 
 ### Option B: Manual Startup via JAR
+
 ```powershell
 cd C:\Users\jaget\Downloads\bloodbank\bloodbank
 
@@ -23,6 +25,7 @@ java -jar target\bloodbank-1.0.0.jar --spring.datasource.username=$env:DB_USERNA
 ```
 
 ### Option C: Startup via Maven Wrapper
+
 ```powershell
 cd C:\Users\jaget\Downloads\bloodbank\bloodbank
 
@@ -51,9 +54,11 @@ Once the application logs `Started BloodbankApplication in ... seconds`:
 ## 3. End-to-End Live Workflow (Swagger UI or cURL)
 
 ### Step 1: Check Current Stock Levels
+
 - **Method**: `GET`
 - **URL**: `http://localhost:8080/api/inventory/stock`
 - **Response**:
+
 ```json
 {
   "A+": 6,
@@ -70,9 +75,11 @@ Once the application logs `Started BloodbankApplication in ... seconds`:
 ---
 
 ### Step 2: Register a New Donor
+
 - **Method**: `POST`
 - **URL**: `http://localhost:8080/api/donors`
 - **Payload**:
+
 ```json
 {
   "name": "Arjun Singhania",
@@ -84,7 +91,9 @@ Once the application logs `Started BloodbankApplication in ... seconds`:
   "address": "Flat 302, Palm Grove Residences, Indiranagar, Bangalore"
 }
 ```
+
 - **Response**: `201 Created`
+
 ```json
 {
   "id": 11,
@@ -104,9 +113,11 @@ Once the application logs `Started BloodbankApplication in ... seconds`:
 ---
 
 ### Step 3: Check Medical Eligibility Before Donation
+
 - **Method**: `GET`
 - **URL**: `http://localhost:8080/api/donors/11/eligibility`
 - **Response**: `200 OK`
+
 ```json
 {
   "donorId": 11,
@@ -121,9 +132,11 @@ Once the application logs `Started BloodbankApplication in ... seconds`:
 ---
 
 ### Step 4: Register Blood Donation (2 Units)
+
 - **Method**: `POST`
 - **URL**: `http://localhost:8080/api/donations`
 - **Payload**:
+
 ```json
 {
   "donorId": 11,
@@ -132,7 +145,9 @@ Once the application logs `Started BloodbankApplication in ... seconds`:
   "notes": "Voluntary blood drive donor - vitals normal"
 }
 ```
+
 - **Response**: `201 Created`
+
 ```json
 {
   "id": 11,
@@ -168,10 +183,13 @@ Once the application logs `Started BloodbankApplication in ... seconds`:
 ---
 
 ### Step 5: Test 90-Day Cooldown Protection
+
 Attempt to register a second donation for the same donor immediately:
+
 - **Method**: `POST`
 - **URL**: `http://localhost:8080/api/donations`
 - **Payload**:
+
 ```json
 {
   "donorId": 11,
@@ -180,7 +198,9 @@ Attempt to register a second donation for the same donor immediately:
   "notes": "Illegal second attempt"
 }
 ```
+
 - **Response**: `400 Bad Request`
+
 ```json
 {
   "timestamp": "2026-09-28T22:21:00",
@@ -194,9 +214,11 @@ Attempt to register a second donation for the same donor immediately:
 ---
 
 ### Step 6: Issue Blood Using FEFO (First-Expiry, First-Out)
+
 - **Method**: `POST`
 - **URL**: `http://localhost:8080/api/issues`
 - **Payload**:
+
 ```json
 {
   "bloodGroup": "O+",
@@ -206,7 +228,9 @@ Attempt to register a second donation for the same donor immediately:
   "notes": "Emergency surgery blood requirement"
 }
 ```
+
 - **Response**: `201 Created`
+
 ```json
 {
   "status": "SUCCESS",
@@ -233,7 +257,9 @@ Attempt to register a second donation for the same donor immediately:
 ---
 
 ### Step 7: Automated Verification of All 19 Endpoints
+
 To run the automated suite testing all 19 endpoints in sequence:
+
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\test_all_localhost.ps1
 ```
@@ -243,15 +269,18 @@ powershell -ExecutionPolicy Bypass -File .\scripts\test_all_localhost.ps1
 ## 4. Synthetic Demo Data & Reset Script
 
 The application automatically seeds a realistic synthetic demonstration dataset on startup if the database is empty or demo data is not yet present:
+
 - **Synthetic Donors**: 24 donors across all 8 blood groups (`A+`, `A-`, `B+`, `B-`, `AB+`, `AB-`, `O+`, `O-`) with safe `@example.test` domains.
 - **Eligibility Demonstrations**: Demonstrates first-time donors, donors within 90-day cooldown, donors with exactly 90 days elapsed, and inactive donors.
 - **Inventory States**: Safe available stock, near-expiry units (< 7 days), expired units, and issued units.
 - **FEFO Allocation**: Multiple O+ units with staggered safe expiry dates demonstrating First-Expire First-Out ordering.
 
 ### Development Demo Reset Script
+
 To safely reset only synthetic demo records (preserving user-created records and database schema) for a fresh demonstration:
+
 ```powershell
 powershell -ExecutionPolicy Bypass -File .\scripts\reset_demo_data.ps1
 ```
-*Note: This script only removes records with `*-DEMO-*` codes and will never delete user-created production data.*
 
+*Note: This script only removes records with `*-DEMO-*` codes and will never delete user-created production data.*

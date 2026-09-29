@@ -23,6 +23,9 @@ import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.context.ApplicationEventPublisher;
+import com.bloodbank.event.DonorRegisteredEvent;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,7 @@ public class DonorService {
     private final DonorRepository donorRepository;
     private final DonationRepository donationRepository;
     private final BloodBankProperties bloodBankProperties;
+    private final ApplicationEventPublisher eventPublisher;
 
     @Transactional
     public DonorResponse createDonor(DonorCreateRequest request) {
@@ -61,6 +65,14 @@ public class DonorService {
         Donor savedDonor = donorRepository.save(donor);
         log.info("Donor registered successfully: id={}, donorCode={}, name={}, bloodGroup={}",
                 savedDonor.getId(), savedDonor.getDonorCode(), savedDonor.getName(), savedDonor.getBloodGroup());
+
+        eventPublisher.publishEvent(new DonorRegisteredEvent(
+                savedDonor.getId(),
+                savedDonor.getDonorCode(),
+                savedDonor.getName(),
+                savedDonor.getEmail(),
+                savedDonor.getBloodGroup()
+        ));
 
         return mapToResponse(savedDonor);
     }

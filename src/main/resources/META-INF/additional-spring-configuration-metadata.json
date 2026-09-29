@@ -23,6 +23,30 @@
       "type": "java.lang.Boolean",
       "description": "Whether to seed synthetic demo records on application startup.",
       "defaultValue": true
+    },
+    {
+      "name": "bloodbank.mail.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether real email notifications are enabled.",
+      "defaultValue": false
+    },
+    {
+      "name": "bloodbank.mail.from",
+      "type": "java.lang.String",
+      "description": "Sender email address for notifications.",
+      "defaultValue": "no-reply@bloodbank.org"
+    },
+    {
+      "name": "bloodbank.mail.admin-email",
+      "type": "java.lang.String",
+      "description": "Administrator / Blood Bank operational email address for inventory alerts.",
+      "defaultValue": "admin@bloodbank.org"
+    },
+    {
+      "name": "bloodbank.mail.eligibility-reminders-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether automated scheduled donor eligibility reminders are enabled.",
+      "defaultValue": false
     }
   ]
 }

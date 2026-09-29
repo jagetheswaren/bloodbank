@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Registration Successful</title>
+</head>
+<body style="margin: 0; padding: 0; background-color: #F7F8FA; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; color: #17202A;">
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #F7F8FA; padding: 32px 16px;">
+        <tr>
+            <td align="center">
+                <table role="presentation" width="100%" style="max-width: 560px; background-color: #FFFFFF; border-radius: 12px; border: 1px solid #E4E7EC; overflow: hidden; box-shadow: 0 4px 16px rgba(0,0,0,0.04);">
+                    <!-- Header -->
+                    <tr>
+                        <td style="background-color: #7F1D2D; padding: 28px 32px; text-align: left;">
+                            <h1 style="margin: 0; font-size: 20px; font-weight: 700; color: #FFFFFF; letter-spacing: -0.3px;">BloodBank Healthcare</h1>
+                            <p style="margin: 4px 0 0 0; font-size: 13px; color: #FDF2F4; opacity: 0.9;">Donor Safety & Inventory Operations Platform</p>
+                        </td>
+                    </tr>
+                    <!-- Body -->
+                    <tr>
+                        <td style="padding: 32px;">
+                            <h2 style="margin: 0 0 16px 0; font-size: 18px; font-weight: 600; color: #17202A;">Welcome, <span th:text="${donorName}">Donor Name</span></h2>
+                            <p style="margin: 0 0 24px 0; font-size: 14px; line-height: 1.6; color: #667085;">
+                                Your donor profile has been registered successfully in the regional blood management system. Thank you for your commitment to voluntary blood donation and saving lives.
+                            </p>
+
+                            <!-- Profile Details Card -->
+                            <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color: #FDF2F4; border: 1px solid #F8D7DA; border-radius: 8px; margin-bottom: 24px;">
+                                <tr>
+                                    <td style="padding: 16px 20px;">
+                                        <table role="presentation" width="100%" cellspacing="0" cellpadding="4">
+                                            <tr>
+                                                <td width="40%" style="font-size: 13px; color: #7F1D2D; font-weight: 600;">Donor Code:</td>
+                                                <td width="60%" style="font-size: 14px; color: #17202A; font-weight: 700; font-family: monospace;" th:text="${donorCode}">DNR-00000000</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 13px; color: #7F1D2D; font-weight: 600;">Blood Group:</td>
+                                                <td style="font-size: 14px; color: #7F1D2D; font-weight: 700;" th:text="${bloodGroup}">O+</td>
+                                            </tr>
+                                            <tr>
+                                                <td style="font-size: 13px; color: #7F1D2D; font-weight: 600;">Status:</td>
+                                                <td style="font-size: 13px; color: #067647; font-weight: 600;">Active & Eligible for First Donation</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p style="margin: 0 0 16px 0; font-size: 13px; line-height: 1.5; color: #667085;">
+                                <strong>Safety Notice:</strong> After each whole-blood donation, our clinical engine enforces a mandatory 90-day recovery interval to safeguard your health before you can donate again.
+                            </p>
+                        </td>
+                    </tr>
+                    <!-- Footer -->
+                    <tr>
+                        <td style="background-color: #F1F3F5; padding: 20px 32px; border-top: 1px solid #E4E7EC; text-align: center;">
+                            <p style="margin: 0; font-size: 12px; color: #98A2B3;">
+                                BloodBank Inventory & Donor Tracker • Automated System Notification<br>
+                                Please do not reply directly to this automated email.
+                            </p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

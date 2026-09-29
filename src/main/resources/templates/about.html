@@ -222,8 +222,49 @@
                   <td>2.x</td>
                   <td>High-speed zero-dependency database used exclusively for automated test execution and CI.</td>
                 </tr>
+        <!-- Real Email Notification System (Section 129) -->
+        <div class="card mb-5">
+          <div class="card-header">
+            <h3 class="card-title">Real Email Notification &amp; Audit Engine</h3>
+          </div>
+          <div class="card-body">
+            <p class="mb-3">
+              Asynchronous, transaction-safe notification engine using Spring Boot Mail and JavaMailSender:
+            </p>
+            <table class="table mb-3">
+              <thead>
+                <tr>
+                  <th>Feature</th>
+                  <th>Configuration Status</th>
+                  <th>Operational Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Email Notifications</strong></td>
+                  <td><span class="badge badge-info" id="about-mail-enabled">Configured (Safe Mode)</span></td>
+                  <td>Controls whether real SMTP dispatch is active (via <code>bloodbank.mail.enabled</code>).</td>
+                </tr>
+                <tr>
+                  <td><strong>SMTP Provider</strong></td>
+                  <td><span class="badge badge-neutral">SMTP / Gmail TLS 587</span></td>
+                  <td>Configured via environment variables (<code>MAIL_HOST</code>, <code>MAIL_PORT</code>). Secrets protected.</td>
+                </tr>
+                <tr>
+                  <td><strong>Admin Alert Recipient</strong></td>
+                  <td><span class="badge badge-neutral" id="about-admin-recipient">admin@bloodbank.org</span></td>
+                  <td>Receives real-time operational alerts for Near-Expiry (&le; 7d), Expired units, and Issue audits.</td>
+                </tr>
+                <tr>
+                  <td><strong>Transaction Safety</strong></td>
+                  <td><span class="badge badge-success">AFTER_COMMIT Safe</span></td>
+                  <td>Emails only fire after successful database commit. SMTP failure never fails donations.</td>
+                </tr>
               </tbody>
             </table>
+            <p class="text-muted font-sm">
+              Inspect recent notification dispatch logs at <a href="/api/notifications" target="_blank">/api/notifications</a>.
+            </p>
           </div>
         </div>
 
