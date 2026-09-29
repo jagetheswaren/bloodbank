@@ -14,6 +14,7 @@ public class BloodBankProperties {
     private Donation donation = new Donation();
     private Inventory inventory = new Inventory();
     private BloodUnit bloodUnit = new BloodUnit();
+    private Demo demo = new Demo();
 
     @Getter
     @Setter
@@ -40,5 +41,14 @@ public class BloodBankProperties {
          * Standard shelf life of a collected blood unit in days.
          */
         private int shelfLifeDays = 42;
+    }
+
+    @Getter
+    @Setter
+    public static class Demo {
+        /**
+         * Whether to seed synthetic demo records on application startup.
+         */
+        private boolean seedEnabled = true;
     }
 }

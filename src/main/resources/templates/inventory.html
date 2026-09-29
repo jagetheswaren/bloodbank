@@ -27,7 +27,7 @@
             <p class="page-subtitle">Granular lifecycle tracking for every collected blood unit from collection through issuing.</p>
           </div>
           <div class="page-actions">
-            <a href="/inventory/near-expiry" class="btn btn-secondary btn-sm" style="color:var(--status-near-expiry);border-color:var(--status-near-expiry-border);">
+            <a href="/inventory/near-expiry" class="btn btn-secondary btn-sm btn-near-expiry-outline">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="12" y1="8" x2="12" y2="12"></line>
@@ -35,7 +35,7 @@
               </svg>
               Near Expiry Monitor
             </a>
-            <a href="/inventory/expired" class="btn btn-secondary btn-sm" style="color:var(--status-expired);border-color:var(--status-expired-border);">
+            <a href="/inventory/expired" class="btn btn-secondary btn-sm btn-expired-outline">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"></circle>
                 <line x1="15" y1="9" x2="9" y2="15"></line>
@@ -57,8 +57,8 @@
             <input type="text" id="unit-search-input" class="form-control search-input" placeholder="Search by unit code or donation code...">
           </div>
 
-          <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
-            <select id="inventory-bg-filter" class="form-control" title="Filter by blood group" aria-label="Filter by blood group" style="width:auto;min-width:140px;">
+          <div class="d-flex gap-3 flex-wrap">
+            <select id="inventory-bg-filter" class="form-control form-select-auto" title="Filter by blood group" aria-label="Filter by blood group">
               <option value="">All Blood Groups</option>
               <option value="A+">A+</option>
               <option value="A-">A-</option>
@@ -70,7 +70,7 @@
               <option value="O-">O-</option>
             </select>
 
-            <select id="inventory-status-filter" class="form-control" title="Filter by unit status" aria-label="Filter by unit status" style="width:auto;min-width:140px;">
+            <select id="inventory-status-filter" class="form-control form-select-auto" title="Filter by unit status" aria-label="Filter by unit status">
               <option value="">All Statuses</option>
               <option value="AVAILABLE">AVAILABLE</option>
               <option value="NEAR_EXPIRY">NEAR EXPIRY</option>

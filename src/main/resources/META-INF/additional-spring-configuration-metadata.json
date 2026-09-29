@@ -1,0 +1,28 @@
+{
+  "properties": [
+    {
+      "name": "bloodbank.donation.minimum-gap-days",
+      "type": "java.lang.Integer",
+      "description": "Minimum gap in days between two whole blood donations for the same donor.",
+      "defaultValue": 90
+    },
+    {
+      "name": "bloodbank.inventory.near-expiry-days",
+      "type": "java.lang.Integer",
+      "description": "Days threshold before expiry to flag a unit as NEAR_EXPIRY.",
+      "defaultValue": 7
+    },
+    {
+      "name": "bloodbank.blood-unit.shelf-life-days",
+      "type": "java.lang.Integer",
+      "description": "Standard shelf life of a collected blood unit in days.",
+      "defaultValue": 42
+    },
+    {
+      "name": "bloodbank.demo.seed-enabled",
+      "type": "java.lang.Boolean",
+      "description": "Whether to seed synthetic demo records on application startup.",
+      "defaultValue": true
+    }
+  ]
+}

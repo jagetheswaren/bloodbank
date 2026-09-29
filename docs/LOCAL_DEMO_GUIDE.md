@@ -235,5 +235,23 @@ Attempt to register a second donation for the same donor immediately:
 ### Step 7: Automated Verification of All 19 Endpoints
 To run the automated suite testing all 19 endpoints in sequence:
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\test_all_localhost.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\test_all_localhost.ps1
 ```
+
+---
+
+## 4. Synthetic Demo Data & Reset Script
+
+The application automatically seeds a realistic synthetic demonstration dataset on startup if the database is empty or demo data is not yet present:
+- **Synthetic Donors**: 24 donors across all 8 blood groups (`A+`, `A-`, `B+`, `B-`, `AB+`, `AB-`, `O+`, `O-`) with safe `@example.test` domains.
+- **Eligibility Demonstrations**: Demonstrates first-time donors, donors within 90-day cooldown, donors with exactly 90 days elapsed, and inactive donors.
+- **Inventory States**: Safe available stock, near-expiry units (< 7 days), expired units, and issued units.
+- **FEFO Allocation**: Multiple O+ units with staggered safe expiry dates demonstrating First-Expire First-Out ordering.
+
+### Development Demo Reset Script
+To safely reset only synthetic demo records (preserving user-created records and database schema) for a fresh demonstration:
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\reset_demo_data.ps1
+```
+*Note: This script only removes records with `*-DEMO-*` codes and will never delete user-created production data.*
+

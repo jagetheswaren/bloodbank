@@ -84,7 +84,7 @@
                 </svg>
               </div>
             </div>
-            <div class="kpi-value" id="kpi-near-expiry" style="color:var(--status-near-expiry);">&mdash;</div>
+            <div class="kpi-value text-near-expiry" id="kpi-near-expiry">&mdash;</div>
             <div class="kpi-meta">&le; 7 days window (excluded)</div>
           </div>
 
@@ -99,7 +99,7 @@
                 </svg>
               </div>
             </div>
-            <div class="kpi-value" id="kpi-expired" style="color:var(--status-expired);">&mdash;</div>
+            <div class="kpi-value text-expired" id="kpi-expired">&mdash;</div>
             <div class="kpi-meta">Past 42 days (blocked)</div>
           </div>
 
@@ -112,13 +112,13 @@
                 </svg>
               </div>
             </div>
-            <div class="kpi-value" id="kpi-issued-records" style="color:var(--status-issued);">&mdash;</div>
+            <div class="kpi-value text-issued" id="kpi-issued-records">&mdash;</div>
             <div class="kpi-meta">Clinical issue transactions</div>
           </div>
         </div>
 
         <!-- 8 Blood Group Usable Stock Section -->
-        <div class="card" style="margin-bottom: 1.75rem;">
+        <div class="card mb-5">
           <div class="card-header">
             <div>
               <h2 class="card-title">Usable Blood Units by Blood Group</h2>
@@ -129,20 +129,20 @@
           <div class="card-body">
             <div class="stock-grid" id="blood-stock-grid">
               <!-- Rendered dynamically by dashboard.js -->
-              <div class="skeleton" style="height: 90px; border-radius: var(--radius-lg);"></div>
-              <div class="skeleton" style="height: 90px; border-radius: var(--radius-lg);"></div>
-              <div class="skeleton" style="height: 90px; border-radius: var(--radius-lg);"></div>
-              <div class="skeleton" style="height: 90px; border-radius: var(--radius-lg);"></div>
-              <div class="skeleton" style="height: 90px; border-radius: var(--radius-lg);"></div>
-              <div class="skeleton" style="height: 90px; border-radius: var(--radius-lg);"></div>
-              <div class="skeleton" style="height: 90px; border-radius: var(--radius-lg);"></div>
-              <div class="skeleton" style="height: 90px; border-radius: var(--radius-lg);"></div>
+              <div class="skeleton skeleton-tile"></div>
+              <div class="skeleton skeleton-tile"></div>
+              <div class="skeleton skeleton-tile"></div>
+              <div class="skeleton skeleton-tile"></div>
+              <div class="skeleton skeleton-tile"></div>
+              <div class="skeleton skeleton-tile"></div>
+              <div class="skeleton skeleton-tile"></div>
+              <div class="skeleton skeleton-tile"></div>
             </div>
           </div>
         </div>
 
         <!-- Recent Activity: Donations & Issues Side by Side -->
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(420px, 1fr)); gap: 1.5rem;">
+        <div class="dashboard-activity-grid">
           <!-- Recent Donations -->
           <div class="card">
             <div class="card-header">
@@ -152,7 +152,7 @@
               </div>
               <a href="/donations" class="btn btn-ghost btn-sm">View All &rarr;</a>
             </div>
-            <div class="table-wrapper" style="border:none;border-radius:0;">
+            <div class="table-wrapper table-flush">
               <table class="data-table">
                 <thead>
                   <tr>
@@ -179,7 +179,7 @@
               </div>
               <a href="/issues" class="btn btn-ghost btn-sm">View All &rarr;</a>
             </div>
-            <div class="table-wrapper" style="border:none;border-radius:0;">
+            <div class="table-wrapper table-flush">
               <table class="data-table">
                 <thead>
                   <tr>

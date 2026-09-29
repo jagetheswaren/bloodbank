@@ -20,7 +20,7 @@
     <main class="app-main">
       <header th:replace="~{fragments/navbar :: navbar('Record Donation', 'Donations / Record')}"></header>
 
-      <div class="page-container animate-fade-in" style="max-width: 820px;" id="record-donation-workflow">
+      <div class="page-container animate-fade-in container-max-820" id="record-donation-workflow">
         <div class="page-header">
           <div class="page-title-group">
             <h1>Record Blood Donation</h1>
@@ -33,7 +33,7 @@
 
         <div id="donation-steps-wrap">
           <!-- Step 1: Donor Selection & Eligibility Evaluation -->
-          <div class="card" style="margin-bottom: 1.5rem;">
+          <div class="card mb-4">
             <div class="card-header">
               <h3 class="card-title">Step 1: Select Donor &amp; Verify Eligibility</h3>
             </div>
@@ -47,14 +47,14 @@
               </div>
 
               <!-- Eligibility Check Result Banner -->
-              <div id="eligibility-check-result" style="margin-top: 1rem;">
+              <div id="eligibility-check-result" class="mt-3">
                 <!-- Populated dynamically by donations.js -->
               </div>
             </div>
           </div>
 
           <!-- Step 2: Donation Collection Details (Shown only when donor is eligible) -->
-          <div class="card" id="donation-details-section" style="display: none; animation: fadeIn 0.3s ease;">
+          <div class="card d-none animated-fade-section" id="donation-details-section">
             <div class="card-header">
               <h3 class="card-title">Step 2: Collection Details</h3>
             </div>
@@ -82,7 +82,7 @@
                   <input type="text" id="donation-notes" name="notes" class="form-control" placeholder="e.g. Routine voluntary camp collection, donor vitals verified.">
                 </div>
 
-                <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-light);">
+                <div class="form-actions-bar">
                   <button type="submit" id="submit-donation-btn" class="btn btn-primary">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                       <polyline points="20 6 9 17 4 12"></polyline>
@@ -96,15 +96,15 @@
         </div>
 
         <!-- Success Receipt Experience (Rendered upon successful submission) -->
-        <div id="donation-receipt-section" style="display: none;">
+        <div id="donation-receipt-section" class="d-none">
           <div class="success-receipt-card animate-slide-up">
             <div class="success-check-icon">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </div>
-            <h2 style="font-size:1.45rem;color:var(--text-primary);margin-bottom:0.25rem;">Donation Accepted</h2>
-            <p style="color:var(--text-secondary);font-size:0.9rem;">Atomic database transaction completed and inventory blood units generated.</p>
+            <h2 class="receipt-title">Donation Accepted</h2>
+            <p class="receipt-subtitle">Atomic database transaction completed and inventory blood units generated.</p>
 
             <div class="receipt-grid">
               <div>
@@ -117,26 +117,26 @@
               </div>
               <div>
                 <span class="meta-field-label">Blood Group</span>
-                <span style="font-weight:700;color:var(--primary);" id="receipt-blood-group">&mdash;</span>
+                <span class="receipt-blood-group" id="receipt-blood-group">&mdash;</span>
               </div>
               <div>
                 <span class="meta-field-label">Units Created</span>
                 <strong id="receipt-units-count">&mdash;</strong>
               </div>
-              <div style="grid-column: 1 / -1;">
+              <div class="grid-col-all">
                 <span class="meta-field-label">Collection Date</span>
                 <span id="receipt-collection-date">&mdash;</span>
               </div>
             </div>
 
-            <div style="text-align:left;margin-bottom:1.5rem;">
-              <h4 style="font-size:0.85rem;color:var(--text-muted);text-transform:uppercase;margin-bottom:0.5rem;">Generated Inventory Blood Units</h4>
+            <div class="text-left mb-4">
+              <h4 class="receipt-unit-header">Generated Inventory Blood Units</h4>
               <div id="receipt-units-list">
                 <!-- Rendered dynamically -->
               </div>
             </div>
 
-            <div style="display:flex;justify-content:center;gap:1rem;">
+            <div class="receipt-actions">
               <a href="/inventory" class="btn btn-primary">View Inventory Stock</a>
               <a href="/donations/new" class="btn btn-secondary">Record Another Donation</a>
             </div>

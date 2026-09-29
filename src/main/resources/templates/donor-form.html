@@ -20,7 +20,7 @@
     <main class="app-main">
       <header th:replace="~{fragments/navbar :: navbar('Register Donor', 'Donors / Register')}"></header>
 
-      <div class="page-container animate-fade-in" style="max-width: 760px;">
+      <div class="page-container animate-fade-in container-max-760">
         <div class="page-header">
           <div class="page-title-group">
             <h1>Register New Blood Donor</h1>
@@ -98,7 +98,7 @@
                 <span class="form-text">City, state, or residential area.</span>
               </div>
 
-              <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-light);">
+              <div class="form-actions-bar">
                 <a href="/donors" class="btn btn-secondary">Cancel</a>
                 <button type="submit" id="submit-donor-btn" class="btn btn-primary">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

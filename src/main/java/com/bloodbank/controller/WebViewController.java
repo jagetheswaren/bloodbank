@@ -56,6 +56,11 @@ public class WebViewController {
         return "inventory";
     }
 
+    @GetMapping("/inventory/stock")
+    public String inventoryStock() {
+        return "forward:/api/inventory/stock";
+    }
+
     @GetMapping("/inventory/near-expiry")
     public String nearExpiry() {
         return "near-expiry";

@@ -4,7 +4,6 @@ import com.bloodbank.config.BloodBankProperties;
 import com.bloodbank.dto.request.DonationCreateRequest;
 import com.bloodbank.dto.response.DonationResponse;
 import com.bloodbank.dto.response.EligibilityResponse;
-import com.bloodbank.entity.BloodUnit;
 import com.bloodbank.entity.Donation;
 import com.bloodbank.entity.Donor;
 import com.bloodbank.enums.BloodGroup;
@@ -23,7 +22,6 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

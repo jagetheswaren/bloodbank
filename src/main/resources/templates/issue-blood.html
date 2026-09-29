@@ -20,7 +20,7 @@
     <main class="app-main">
       <header th:replace="~{fragments/navbar :: navbar('Issue Blood', 'Operations / Issue Blood')}"></header>
 
-      <div class="page-container animate-fade-in" style="max-width: 780px;">
+      <div class="page-container animate-fade-in container-max-780">
         <div class="page-header">
           <div class="page-title-group">
             <h1>Clinical Blood Issue Requisition</h1>
@@ -33,7 +33,7 @@
 
         <!-- FEFO Educational Protocol Banner -->
         <div class="fefo-banner">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--primary);flex-shrink:0;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="text-primary-color flex-shrink-0">
             <circle cx="12" cy="12" r="10"></circle>
             <polyline points="12 6 12 12 16 14"></polyline>
           </svg>
@@ -65,7 +65,7 @@
                     <option value="O+">O+</option>
                     <option value="O-">O-</option>
                   </select>
-                  <span class="form-text" id="selected-bg-stock-hint" style="font-weight:500;">
+                  <span class="form-text font-medium" id="selected-bg-stock-hint">
                     Select a blood group to view live usable stock.
                   </span>
                 </div>
@@ -96,7 +96,7 @@
                 <input type="text" id="issue-notes" name="notes" class="form-control" placeholder="e.g. Emergency trauma unit, cross-match verified.">
               </div>
 
-              <div style="display:flex;justify-content:flex-end;gap:0.75rem;margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-light);">
+              <div class="form-actions-bar">
                 <a href="/issues" class="btn btn-secondary">Cancel</a>
                 <button type="submit" id="submit-issue-btn" class="btn btn-primary">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -110,15 +110,15 @@
         </div>
 
         <!-- Issue Receipt Experience (Rendered on success) -->
-        <div id="issue-receipt-section" style="display: none;">
+        <div id="issue-receipt-section" class="d-none">
           <div class="success-receipt-card animate-slide-up">
             <div class="success-check-icon">
               <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
             </div>
-            <h2 style="font-size:1.45rem;color:var(--text-primary);margin-bottom:0.25rem;">Blood Issued Successfully</h2>
-            <p style="color:var(--text-secondary);font-size:0.9rem;">The oldest safe unit was automatically selected via FEFO and marked as ISSUED.</p>
+            <h2 class="receipt-title">Blood Issued Successfully</h2>
+            <p class="receipt-subtitle">The oldest safe unit was automatically selected via FEFO and marked as ISSUED.</p>
 
             <div class="receipt-grid">
               <div>
@@ -127,7 +127,7 @@
               </div>
               <div>
                 <span class="meta-field-label">Allocated Blood Unit</span>
-                <span class="font-mono-code" id="receipt-allocated-unit" style="background-color:var(--status-issued-bg);color:var(--status-issued);border-color:var(--status-issued-border);">&mdash;</span>
+                <span class="font-mono-code receipt-unit-tag" id="receipt-allocated-unit">&mdash;</span>
               </div>
               <div>
                 <span class="meta-field-label">Patient Name</span>
@@ -139,7 +139,7 @@
               </div>
               <div>
                 <span class="meta-field-label">Blood Group</span>
-                <span style="font-weight:700;color:var(--primary);" id="receipt-blood-group">&mdash;</span>
+                <span class="receipt-blood-group" id="receipt-blood-group">&mdash;</span>
               </div>
               <div>
                 <span class="meta-field-label">Issue Date</span>
@@ -147,7 +147,7 @@
               </div>
             </div>
 
-            <div style="display:flex;justify-content:center;gap:1rem;">
+            <div class="receipt-actions">
               <a href="/inventory/stock" class="btn btn-secondary">Check Live Stock</a>
               <a href="/issues" class="btn btn-primary">View Issue History</a>
             </div>

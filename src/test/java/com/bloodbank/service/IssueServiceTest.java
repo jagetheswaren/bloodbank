@@ -186,4 +186,76 @@ class IssueServiceTest {
         assertThrows(InsufficientStockException.class, () -> issueService.issueBlood(request));
         verify(issueRecordRepository, never()).save(any(IssueRecord.class));
     }
+
+    @Test
+    @DisplayName("Section 38 FEFO Spec: Must select earliest safe unit and skip near-expiry unit")
+    void testIssueBlood_FEFO_SelectsEarliestSafeAndSkipsNearExpiry() {
+        LocalDate today = LocalDate.now();
+
+        // 1 near-expiry unit (expires in 3 days, inside <= 7 days window)
+        BloodUnit nearExpiryUnit = BloodUnit.builder()
+                .id(10L)
+                .unitCode("UNT-DEMO-O-FEFO-NE")
+                .bloodGroup(BloodGroup.O_POSITIVE)
+                .collectionDate(today.minusDays(39))
+                .expiryDate(today.plusDays(3))
+                .status(BloodUnitStatus.AVAILABLE)
+                .build();
+
+        // Unit A (expires in 10 days: earliest SAFE expiry)
+        BloodUnit unitA = BloodUnit.builder()
+                .id(11L)
+                .unitCode("UNT-DEMO-O-FEFO-A")
+                .bloodGroup(BloodGroup.O_POSITIVE)
+                .collectionDate(today.minusDays(32))
+                .expiryDate(today.plusDays(10))
+                .status(BloodUnitStatus.AVAILABLE)
+                .build();
+
+        // Unit B (expires in 15 days)
+        BloodUnit unitB = BloodUnit.builder()
+                .id(12L)
+                .unitCode("UNT-DEMO-O-FEFO-B")
+                .bloodGroup(BloodGroup.O_POSITIVE)
+                .collectionDate(today.minusDays(27))
+                .expiryDate(today.plusDays(15))
+                .status(BloodUnitStatus.AVAILABLE)
+                .build();
+
+        // Unit C (expires in 25 days)
+        BloodUnit unitC = BloodUnit.builder()
+                .id(13L)
+                .unitCode("UNT-DEMO-O-FEFO-C")
+                .bloodGroup(BloodGroup.O_POSITIVE)
+                .collectionDate(today.minusDays(17))
+                .expiryDate(today.plusDays(25))
+                .status(BloodUnitStatus.AVAILABLE)
+                .build();
+
+        // Repository returns ordered by expiryDate ASC
+        when(bloodUnitRepository.findSafeAvailableUnitsForIssue(eq(BloodGroup.O_POSITIVE), any(LocalDate.class)))
+                .thenReturn(new ArrayList<>(List.of(nearExpiryUnit, unitA, unitB, unitC)));
+        when(issueRecordRepository.existsByBloodUnitId(anyLong())).thenReturn(false);
+        when(issueRecordRepository.findByIssueCode(anyString())).thenReturn(Optional.empty());
+        when(issueRecordRepository.save(any(IssueRecord.class))).thenAnswer(inv -> inv.getArgument(0));
+
+        IssueRequest request = IssueRequest.builder()
+                .bloodGroup(BloodGroup.O_POSITIVE)
+                .numberOfUnits(1)
+                .patientName("Ravi Demo")
+                .hospitalName("City Care Demo Hospital")
+                .notes("FEFO allocation test")
+                .build();
+
+        IssueResponse response = issueService.issueBlood(request);
+
+        assertNotNull(response);
+        assertEquals(1, response.getNumberOfUnitsIssued());
+        // Verify FEFO chose unitA (earliest SAFE expiry: +10 days), skipping nearExpiryUnit (+3 days)
+        assertEquals("UNT-DEMO-O-FEFO-A", response.getIssuedUnits().get(0).getUnitCode());
+        assertEquals(BloodUnitStatus.ISSUED, unitA.getStatus());
+        assertEquals(BloodUnitStatus.AVAILABLE, unitB.getStatus());
+        assertEquals(BloodUnitStatus.AVAILABLE, unitC.getStatus());
+        assertEquals(BloodUnitStatus.AVAILABLE, nearExpiryUnit.getStatus()); // Untouched by issue
+    }
 }
