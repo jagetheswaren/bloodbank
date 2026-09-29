@@ -25,4 +25,11 @@ public interface NotificationLogRepository extends JpaRepository<NotificationLog
             Long relatedEntityId,
             NotificationStatus status
     );
+
+    boolean existsByNotificationTypeAndRelatedEntityTypeAndRelatedEntityIdAndCreatedAtAfter(
+            NotificationType notificationType,
+            String relatedEntityType,
+            Long relatedEntityId,
+            java.time.LocalDateTime createdAt
+    );
 }

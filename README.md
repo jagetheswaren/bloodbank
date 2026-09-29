@@ -6,7 +6,7 @@
 [![Java](https://img.shields.io/badge/Java-21-orange.svg)](https://openjdk.org/projects/jdk/21/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-4.1.1-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![Database](https://img.shields.io/badge/Database-MySQL%208.0%20%7C%20H2-blue.svg)](https://www.mysql.com/)
-[![Tests](https://img.shields.io/badge/Tests-42%20Passed%20%2F%200%20Failed-success.svg)](pom.xml)
+[![Tests](https://img.shields.io/badge/Tests-46%20Passed%20%2F%200%20Failed-success.svg)](pom.xml)
 [![Version](https://img.shields.io/badge/Release-v1.0.0-blue.svg)](pom.xml)
 
 ---
@@ -55,7 +55,7 @@ Local and regional blood banks frequently rely on manual paper records or unveri
 | **MySQL & HikariCP** | 8.0.x | Enterprise relational database with high-performance JDBC connection pooling. |
 | **Thymeleaf** | 3.1.x | Server-side template engine for the integrated clinical web interface. |
 | **Springdoc OpenAPI** | 2.8.5 | Automated Swagger UI and OpenAPI 3.0 specification generator. |
-| **JUnit 5 & Mockito** | 5.x | Automated unit and integration testing framework (42 automated tests). |
+| **JUnit 5 & Mockito** | 5.x | Automated unit and integration testing framework (46 automated tests). |
 | **H2 In-Memory DB** | 2.x | High-speed zero-dependency database used exclusively for automated test execution and CI. |
 | **Project Lombok** | 1.18.x | Compile-time boilerplate reduction for getters, setters, and constructors. |
 | **Apache Maven** | 3.9+ | Build automation, dependency management, and multi-profile packaging. |
@@ -220,7 +220,7 @@ bloodbank/
 │   │       │   └── about.html     # Architecture and rules overview
 │   │       └── application.properties
 │   └── test/
-│       ├── java/com/bloodbank/    # 42 Automated unit and integration tests
+│       ├── java/com/bloodbank/    # 46 Automated unit and integration tests
 │       └── resources/
 │           └── application-test.properties # H2 in-memory test configuration
 ├── .env.example                   # Environment variable template
@@ -308,7 +308,7 @@ Interactive Swagger documentation is available at `http://localhost:8080/swagger
 Automated testing executes against an embedded in-memory H2 database, requiring no active MySQL instance:
 
 ```powershell
-# Run 42 automated unit and integration tests
+# Run 46 automated unit and integration tests
 .\mvnw.cmd clean test
 
 # Build production executable JAR

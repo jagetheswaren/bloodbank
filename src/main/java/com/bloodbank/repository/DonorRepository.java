@@ -22,4 +22,8 @@ public interface DonorRepository extends JpaRepository<Donor, Long> {
     boolean existsByDonorCode(String donorCode);
 
     Page<Donor> findByActive(boolean active, Pageable pageable);
+
+    java.util.List<Donor> findByActive(boolean active);
+
+    java.util.List<Donor> findByActiveTrue();
 }

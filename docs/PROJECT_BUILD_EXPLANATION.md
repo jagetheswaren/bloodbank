@@ -443,7 +443,7 @@ When an error occurs anywhere in the stack:
 .\mvnw.cmd clean compile
 ```
 
-### 3. Automated Testing (42 Tests via In-Memory H2)
+### 3. Automated Testing (46 Tests via In-Memory H2)
 ```powershell
 .\mvnw.cmd clean test
 ```

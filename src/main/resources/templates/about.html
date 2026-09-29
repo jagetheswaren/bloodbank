@@ -153,6 +153,16 @@
                   Fields: patient_name, hospital_name, issue_date
                 </p>
               </div>
+
+              <div class="schema-box">
+                <strong class="text-primary-color">notification_logs</strong>
+                <p class="text-muted-color mt-1">
+                  PK: <code>id</code><br>
+                  Indexed: <code>notification_type</code>, <code>status</code><br>
+                  Unique: Recipient audit history<br>
+                  Fields: recipient, subject, status, sent_at
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -215,7 +225,7 @@
                 <tr>
                   <td><strong>JUnit 5 &amp; Mockito</strong></td>
                   <td>5.x</td>
-                  <td>Automated unit and end-to-end integration testing framework (41 automated tests).</td>
+                  <td>Automated unit and end-to-end integration testing framework (46 automated tests).</td>
                 </tr>
                 <tr>
                   <td><strong>H2 In-Memory DB</strong></td>
