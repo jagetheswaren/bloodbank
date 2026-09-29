@@ -67,7 +67,7 @@ Write-Host "   -> Donation Code: $($donation.donationCode) | Blood Units: $creat
 # 9. Verify 90-day Rejection
 Write-Host "`n[9/12] Immediate Second Donation (90-Day Gap Rule Test)"
 try {
-    $res = Invoke-RestMethod -Uri "http://localhost:8080/api/donations" -Method Post -Body $donationBody -ContentType "application/json"
+    $null = Invoke-RestMethod -Uri "http://localhost:8080/api/donations" -Method Post -Body $donationBody -ContentType "application/json"
     Write-Host "   -> UNEXPECTED: Second donation succeeded!" -ForegroundColor Red
 } catch {
     Write-Host "   -> Correctly Rejected: $($_.Exception.Message)" -ForegroundColor Green

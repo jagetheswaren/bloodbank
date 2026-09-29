@@ -3,7 +3,9 @@
 ---
 
 ## 1. What the Project Does
+
 The **Blood Bank Inventory & Donor Eligibility Tracker** is a production-grade backend system designed for clinical blood banks, hospitals, and blood transfusion centers. It automates and enforces strict medical regulations for:
+
 1. **Donor Life-Cycle Management**: Registering voluntary blood donors, validating contact details, checking date of birth/age bounds, and maintaining full donation histories with safe soft deactivation.
 2. **Donor Eligibility & Safety Cooldown Enforcement**: Automatically computing donor eligibility based on the regulatory 90-day cooldown between whole-blood donations before allowing any new collection.
 3. **Atomic Donation Processing & Inventory Generation**: Recording donations transactionally while automatically generating physical blood unit barcodes (`UNT-xxxxxxxx`), calculating shelf-life expiration (42 days), and inheriting donor blood group tags.
@@ -15,7 +17,9 @@ The **Blood Bank Inventory & Donor Eligibility Tracker** is a production-grade b
 ---
 
 ## 2. Real-World Problem Solved
+
 Manual and legacy spreadsheet-based blood bank management suffers from severe systemic vulnerabilities:
+
 - **Donor Depletion & Premature Donation**: Allowing donors to donate too soon (before the 90-day physiological red blood cell replenishment period) risks donor iron deficiency, anemia, and fainting.
 - **Transfusion of Expired or Degrading Blood**: Whole blood and packed red blood cells degrade significantly after 42 days. Using near-expiry blood for vulnerable patients risks bacterial proliferation and reduced oxygen-carrying efficacy.
 - **Wastage via FIFO vs FEFO Mismanagement**: In standard FIFO (First-In, First-Out), blood units collected earlier but received late or units with varied collection batches get expired on the shelf while newer units are issued first. FEFO eliminates shelf spoilage.
@@ -25,6 +29,7 @@ Manual and legacy spreadsheet-based blood bank management suffers from severe sy
 ---
 
 ## 3. Project Objectives
+
 - Build an enterprise-grade RESTful API strictly conforming to HTTP/1.1 and JSON specifications.
 - Provide sub-second database transactions with ACID compliance using Spring Data JPA and MySQL 8.0.
 - Guarantee 100% test coverage of critical business invariants (eligibility gap, shelf-life, FEFO allocation, double-issue blocking).
@@ -36,7 +41,7 @@ Manual and legacy spreadsheet-based blood bank management suffers from severe sy
 ## 4. Complete Technology Stack & Rationale
 
 | Technology | Version | Purpose & Rationale |
-|:---|:---:|:---|
+| :--- | :---: | :--- |
 | **Java** | 25 (LTS) / 21 Target | Modern, strongly typed, high-performance object-oriented programming language with virtual threads, pattern matching, and record constructs. |
 | **Spring Boot** | 4.1.1 | Industry-standard enterprise application framework providing dependency injection, auto-configuration, embedded Tomcat, and production monitoring. |
 | **Spring Web (MVC)** | 4.1.1 | DispatcherServlet-based MVC architecture mapping HTTP REST requests to controller endpoints, JSON serialization, and centralized exception handling. |
@@ -56,7 +61,7 @@ Manual and legacy spreadsheet-based blood bank management suffers from severe sy
 
 ## 5. Folder & Package Structure
 
-```
+```text
 bloodbank/
 ├── pom.xml                                  <- Maven Project Object Model configuration
 ├── mvnw & mvnw.cmd                          <- Maven Wrapper executables (Linux / Windows)
@@ -110,7 +115,8 @@ bloodbank/
 └── verify_live_api.ps1                      <- 12-Step business rule verification script
 ```
 
-### Explanation of Packages:
+### Explanation of Packages
+
 - `com.bloodbank.config`: Houses infrastructure configuration. `OpenApiConfig` configures Swagger UI metadata. `WebCorsConfig` sets up Cross-Origin Resource Sharing and registers custom converters (`StringToBloodGroupConverter`) to allow human-readable blood groups (`A+`, `O-`) in URL paths without 500 errors.
 - `com.bloodbank.controller`: Acts as the HTTP gateway. Controllers receive HTTP requests, trigger Jakarta `@Valid` validations, delegate immediately to services, and return typed `ResponseEntity<T>` DTOs.
 - `com.bloodbank.dto.request`: Encapsulates incoming JSON bodies with strict validation annotations (`@NotBlank`, `@Email`, `@Past`, `@Pattern`).
@@ -127,12 +133,14 @@ bloodbank/
 ## 6. File-by-File Detailed Explanation
 
 ### Core Application
+
 - **`BloodbankApplication.java`**:
   - *Role*: Spring Boot bootstrap entry point.
   - *Annotations*: `@SpringBootApplication` (combines `@Configuration`, `@EnableAutoConfiguration`, `@ComponentScan`), `@EnableScheduling` (activates Spring's background task executor).
   - *Main method*: Calls `SpringApplication.run(BloodbankApplication.class, args)`.
 
 ### Controllers
+
 - **`DonorController.java`**: Exposes `/api/donors`. Thin controller delegating to `DonorService`. Endpoints:
   - `POST /api/donors`: Creates donor, returns `201 Created`.
   - `GET /api/donors`: Returns paginated donors (`200 OK`).
@@ -159,6 +167,7 @@ bloodbank/
   - *Role*: Exposes `GET /` and sends an HTTP 302 Found redirect to `/swagger-ui/index.html`. Eliminates browser 404 confusion.
 
 ### Services
+
 - **`DonorService.java`**:
   - Implements CRUD operations for donors.
   - Validates uniqueness of email and phone numbers, throwing `DuplicateResourceException` if duplicated.
@@ -182,6 +191,7 @@ bloodbank/
   - Generates immutable `IssueRecord` entries linking patient, hospital, and blood unit.
 
 ### Entities
+
 - **`Donor.java`**: Table `donors`. Stores `id`, unique `donor_code`, `name`, unique `email`, unique `phone`, `date_of_birth`, `gender`, `blood_group`, `address`, `active`, `created_at`, `updated_at`. Has `@OneToMany(mappedBy = "donor")` relationship with `Donation`.
 - **`Donation.java`**: Table `donations`. Stores `id`, unique `donation_code`, `donor_id` (FK), `donation_date`, `number_of_units`, `notes`, `created_at`. Has `@OneToMany(cascade = CascadeType.ALL)` relationship with `BloodUnit`.
 - **`BloodUnit.java`**: Table `blood_units`. Stores `id`, unique `unit_code`, `donation_id` (FK), `blood_group`, `collection_date`, `expiry_date`, `status` (`AVAILABLE`, `NEAR_EXPIRY`, `EXPIRED`, `ISSUED`, `DISCARDED`), `created_at`, `updated_at`. Has `@OneToOne(mappedBy = "bloodUnit")` relationship with `IssueRecord`.
@@ -191,7 +201,7 @@ bloodbank/
 
 ## 7. Complete Request-Response Flow
 
-```
+```text
 [Client / Swagger UI / Browser]
        │
        ▼ (HTTP POST /api/donations with JSON payload)
@@ -239,6 +249,7 @@ bloodbank/
 ## 8. Business Rules Deep Dive
 
 ### Rule 1: Donor Eligibility & 90-Day Cooldown
+
 - **Rule**: A donor can only donate whole blood once every 90 days.
 - **Config property**: `bloodbank.donation.minimum-gap-days=90`.
 - **Implementation**:
@@ -250,20 +261,24 @@ bloodbank/
   6. Inactive donors (`active = false`) are unconditionally ineligible.
 
 ### Rule 2: 42-Day Blood Unit Shelf-Life
+
 - **Rule**: Whole blood and packed red cells have a maximum viability shelf-life of 42 days from collection.
 - **Config property**: `bloodbank.blood-unit.shelf-life-days=42`.
 - **Implementation**: When a donation is logged, `collectionDate` defaults to the donation date (or today), and `expiryDate = collectionDate.plusDays(42)`.
 
 ### Rule 3: 7-Day Near-Expiry & Expiry Isolation
+
 - **Rule**: Blood units within 7 days of expiration are flagged `NEAR_EXPIRY` and quarantined from general issue to prevent transfusion of deteriorating units. Units past expiration are marked `EXPIRED`.
 - **Config property**: `bloodbank.inventory.near-expiry-days=7`.
 - **Implementation**: Units with `expiryDate < today` are `EXPIRED`. Units where `today <= expiryDate <= today + 7` are `NEAR_EXPIRY`. Units with `expiryDate > today + 7` are `AVAILABLE`. Terminal states (`ISSUED`, `DISCARDED`) are never overwritten.
 
 ### Rule 4: First-Expiry, First-Out (FEFO) Allocation
+
 - **Rule**: When blood is requested, the system automatically allocates units with the earliest expiration date among safe available units.
 - **Implementation**: `bloodUnitRepository.findAvailableUnitsForIssue(group, today, nearExpiryThreshold)` sorts by `bu.expiryDate ASC`.
 
 ### Rule 5: Double-Issue Prevention
+
 - **Rule**: Under no circumstances can a single physical unit be assigned to more than one patient or hospital.
 - **Implementation**:
   - Application layer: `IssueService` updates unit status to `ISSUED` within a database transaction.
@@ -345,7 +360,7 @@ CREATE TABLE issue_records (
 
 ## 10. Database Connection & Pooling Architecture
 
-```
+```text
 [application.properties]
         │
         ├──> spring.datasource.url=${DB_URL:...}
@@ -381,7 +396,7 @@ CREATE TABLE issue_records (
 ## 11. API Specification & Mapping Table
 
 | HTTP Method | URL Path | Purpose | Request DTO | Response DTO | HTTP Status | Database Table |
-|---|---|---|---|---|:---:|---|
+| :--- | :--- | :--- | :--- | :--- | :---: | :--- |
 | `GET` | `/` | Redirect to Swagger UI | None | Redirect Header | `302` | None |
 | `GET` | `/swagger-ui/index.html` | Interactive Swagger UI | None | HTML/JS | `200` | None |
 | `GET` | `/v3/api-docs` | OpenAPI 3.0 JSON Schema | None | JSON Schema | `200` | None |
@@ -392,16 +407,16 @@ CREATE TABLE issue_records (
 | `PUT` | `/api/donors/{id}` | Update Donor Details | `DonorUpdateRequest` | `DonorResponse` | `200` | `donors` |
 | `DELETE` | `/api/donors/{id}` | Soft Deactivate Donor | None | `DonorResponse` | `200` | `donors` |
 | `GET` | `/api/donors/{id}/eligibility` | Check Donor Eligibility | None | `EligibilityResponse` | `200` | `donors`, `donations` |
-| `POST` | `/api/donations` | Register Blood Donation | `DonationCreateRequest`| `DonationResponse` | `201` | `donations`, `blood_units` |
-| `GET` | `/api/donations` | List Donations (Paginated)| None (query params) | `Page<DonationResponse>`| `200` | `donations` |
+| `POST` | `/api/donations` | Register Blood Donation | `DonationCreateRequest` | `DonationResponse` | `201` | `donations`, `blood_units` |
+| `GET` | `/api/donations` | List Donations (Paginated) | None (query params) | `Page<DonationResponse>` | `200` | `donations` |
 | `GET` | `/api/donations/{id}` | Get Donation Details | None | `DonationResponse` | `200` | `donations`, `blood_units` |
-| `GET` | `/api/inventory` | List Physical Units | None (query params) | `Page<BloodUnitResponse>`| `200`| `blood_units` |
-| `GET` | `/api/inventory/near-expiry` | List Near-Expiry Units | None (query params) | `Page<BloodUnitResponse>`| `200`| `blood_units` |
-| `GET` | `/api/inventory/expired` | List Expired Units | None (query params) | `Page<BloodUnitResponse>`| `200`| `blood_units` |
-| `GET` | `/api/inventory/blood-group/{grp}` | Filter Units by Blood Group| None | `Page<BloodUnitResponse>`| `200`| `blood_units` |
-| `GET` | `/api/inventory/unit/{unitCode}`| Lookup Unit by Barcode | None | `BloodUnitResponse` | `200` | `blood_units` |
+| `GET` | `/api/inventory` | List Physical Units | None (query params) | `Page<BloodUnitResponse>` | `200` | `blood_units` |
+| `GET` | `/api/inventory/near-expiry` | List Near-Expiry Units | None (query params) | `Page<BloodUnitResponse>` | `200` | `blood_units` |
+| `GET` | `/api/inventory/expired` | List Expired Units | None (query params) | `Page<BloodUnitResponse>` | `200` | `blood_units` |
+| `GET` | `/api/inventory/blood-group/{grp}` | Filter Units by Blood Group | None | `Page<BloodUnitResponse>` | `200` | `blood_units` |
+| `GET` | `/api/inventory/unit/{unitCode}` | Lookup Unit by Barcode | None | `BloodUnitResponse` | `200` | `blood_units` |
 | `POST` | `/api/issues` | Issue Blood (FEFO) | `IssueRequest` | `IssueResponse` | `201` | `blood_units`, `issue_records` |
-| `GET` | `/api/issues` | List Issuance Audit Trail | None (query params) | `Page<IssueRecordResponse>`| `200`| `issue_records` |
+| `GET` | `/api/issues` | List Issuance Audit Trail | None (query params) | `Page<IssueRecordResponse>` | `200` | `issue_records` |
 | `GET` | `/api/issues/{id}` | Get Issuance Audit Detail | None | `IssueRecordResponse` | `200` | `issue_records` |
 
 ---
@@ -409,6 +424,7 @@ CREATE TABLE issue_records (
 ## 12. Exception Handling Flow
 
 When an error occurs anywhere in the stack:
+
 1. The business logic throws a specific unchecked exception extending `RuntimeException`:
    - `ResourceNotFoundException`: Target donor, donation, unit, or issue record does not exist.
    - `DonorNotEligibleException`: Donor is inactive or hasn't finished the 90-day cooldown.
@@ -418,15 +434,17 @@ When an error occurs anywhere in the stack:
 2. The exception bubbles out of the `@Transactional` boundary, triggering an automatic rollback of any pending database operations.
 3. Spring MVC intercepts the exception in `GlobalExceptionHandler` (`@RestControllerAdvice`).
 4. `GlobalExceptionHandler` extracts error metadata, logs the event with `@Slf4j`, and builds a standard `ErrorResponse`:
-```json
-{
-  "timestamp": "2026-09-28T22:20:00",
-  "status": 400,
-  "error": "DONOR_NOT_ELIGIBLE",
-  "message": "Donor has not completed the minimum donation gap of 90 days. 90 day(s) remaining until next eligible donation date (2026-12-27).",
-  "path": "/api/donations"
-}
-```
+
+   ```json
+   {
+     "timestamp": "2026-09-28T22:20:00",
+     "status": 400,
+     "error": "DONOR_NOT_ELIGIBLE",
+     "message": "Donor has not completed the minimum donation gap of 90 days. 90 day(s) remaining until next eligible donation date (2026-12-27).",
+     "path": "/api/donations"
+   }
+   ```
+
 5. No stack traces, database credentials, or internal class names are ever leaked to the client.
 
 ---
@@ -434,27 +452,33 @@ When an error occurs anywhere in the stack:
 ## 13. How to Build, Test, and Run from Scratch
 
 ### 1. Prerequisites
+
 - **Java Development Kit**: JDK 21+ installed and configured on `PATH`.
 - **MySQL Server**: MySQL 8.0 running on `localhost:3306`.
 - **Database**: Database `bloodbank_db` created (`CREATE DATABASE bloodbank_db;`).
 
 ### 2. Compilation
+
 ```powershell
 .\mvnw.cmd clean compile
 ```
 
 ### 3. Automated Testing (46 Tests via In-Memory H2)
+
 ```powershell
 .\mvnw.cmd clean test
 ```
 
 ### 4. Packaging the Standalone Fat JAR
+
 ```powershell
 .\mvnw.cmd clean package -DskipTests
 ```
+
 The production JAR is generated at: `target\bloodbank-1.0.0.jar`.
 
 ### 5. Running the Application on Localhost
+
 ```powershell
 $env:DB_USERNAME="root"
 $env:DB_PASSWORD="YOUR_MYSQL_PASSWORD"

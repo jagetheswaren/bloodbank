@@ -13,8 +13,8 @@
   z-index: 1000;
   width: 100%;
   background: rgba(247, 248, 250, 0.85);
-  backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
   border-bottom: 1px solid transparent;
   transition: all var(--motion-normal, 220ms) var(--ease-smooth);
 }
@@ -1129,6 +1129,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.4);
+  -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
   z-index: 99;
   display: none;
